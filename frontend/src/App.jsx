@@ -1,122 +1,96 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+// Simple Protected Route wrapper checking for stored JWT token
+function ProtectedRoute({ children }) {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
 }
 
-export default App
+// Placeholder for upcoming Member Profile page (Feature 2)
+function ProfilePlaceholder() {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  return (
+    <div style={{ padding: 24, textAlign: "center" }}>
+      <h2>Complete Your Profile</h2>
+      <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>
+        Welcome, {user.phone || "Member"}! Profile onboarding form will load here in Feature 2.
+      </p>
+      <button
+        className="btn btn-secondary"
+        style={{ marginTop: 16 }}
+        onClick={() => {
+          localStorage.clear();
+          window.location.href = "/login";
+        }}
+      >
+        Sign Out
+      </button>
+    </div>
+  );
+}
+
+// Placeholder for upcoming Member Dashboard (Feature 4)
+function DashboardPlaceholder() {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  return (
+    <div style={{ padding: 24, textAlign: "center" }}>
+      <h2>Respondent Dashboard</h2>
+      <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>
+        Welcome back, {user.name || user.phone}! Live surveys and referral status will appear here.
+      </p>
+      <button
+        className="btn btn-secondary"
+        style={{ marginTop: 16 }}
+        onClick={() => {
+          localStorage.clear();
+          window.location.href = "/login";
+        }}
+      >
+        Sign Out
+      </button>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <div className="app-viewport">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePlaceholder />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardPlaceholder />
+              </ProtectedRoute>
+            }
+          />
+          {/* Default redirect to login or dashboard */}
+          <Route
+            path="*"
+            element={
+              localStorage.getItem("token") ? (
+                <Navigate to="/dashboard" replace />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+}
