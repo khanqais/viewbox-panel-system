@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import ProfileOnboarding from "./pages/ProfileOnboarding";
+import Dashboard from "./pages/Dashboard";
+import Referrals from "./pages/Referrals";
 
 // Simple Protected Route wrapper checking for stored JWT token
 function ProtectedRoute({ children }) {
@@ -9,33 +11,6 @@ function ProtectedRoute({ children }) {
     return <Navigate to="/login" replace />;
   }
   return children;
-}
-
-// Placeholder for upcoming Member Dashboard (Feature 3 & 4)
-function DashboardPlaceholder() {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  return (
-    <div style={{ padding: 24, textAlign: "center" }}>
-      <h2>Respondent Dashboard</h2>
-      <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>
-        Welcome back, {user.name || user.phone}!
-      </p>
-      <div style={{ marginTop: 16, display: "flex", gap: 8, justifyContent: "center" }}>
-        <a href="/profile" className="btn btn-secondary">
-          Edit Profile
-        </a>
-        <button
-          className="btn btn-secondary"
-          onClick={() => {
-            localStorage.clear();
-            window.location.href = "/login";
-          }}
-        >
-          Sign Out
-        </button>
-      </div>
-    </div>
-  );
 }
 
 export default function App() {
@@ -56,7 +31,15 @@ export default function App() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <DashboardPlaceholder />
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/referrals"
+            element={
+              <ProtectedRoute>
+                <Referrals />
               </ProtectedRoute>
             }
           />

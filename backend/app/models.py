@@ -77,3 +77,49 @@ class Referral(Base):
     referrer = relationship("User", foreign_keys=[referrer_id], backref="referrals_made")
     referred = relationship("User", foreign_keys=[referred_id], backref="referral_received")
 
+
+class Survey(Base):
+    __tablename__ = "surveys"
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String, nullable=False)
+    description = Column(String, nullable=True)
+    reward_amount = Column(Integer, default=500)
+    quota = Column(Integer, default=50)
+    category = Column(String, nullable=True)  # matches member interests
+    deadline = Column(Date, nullable=False)
+    status = Column(String, default="active")  # active, completed, closed
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    rules = relationship("SurveyRule", back_populates="survey", cascade="all, delete-orphan")
+    participations = relationship("Participation", back_populates="survey")
+
+
+class SurveyRule(Base):
+    __tablename__ = "survey_rules"
+
+    id = Column(Integer, primary_key=True)
+    survey_id = Column(Integer, ForeignKey("surveys.id"), nullable=False)
+    field = Column(String, nullable=False)  # age, city, gender, income_range
+    operator = Column(String, nullable=False)  # between, in, eq, gte, lte
+    value = Column(String, nullable=False)  # e.g. "18-35", "Mumbai,Delhi NCR"
+    strictness = Column(String, default="strict")  # strict or flexible
+
+    survey = relationship("Survey", back_populates="rules")
+
+
+class Participation(Base):
+    __tablename__ = "participations"
+
+    id = Column(Integer, primary_key=True)
+    member_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    survey_id = Column(Integer, ForeignKey("surveys.id"), nullable=False)
+    result = Column(String, nullable=False)  # approved, rejected, waitlisted, completed
+    reason = Column(String, nullable=True)
+    completed_on = Column(Date, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    member = relationship("User", backref="participations")
+    survey = relationship("Survey", back_populates="participations")
+
+

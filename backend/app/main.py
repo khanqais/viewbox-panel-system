@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine
-from app.routers import auth, members, sources
+from app.routers import auth, members, sources, surveys, referrals
 
 Base.metadata.create_all(bind=engine)
 
@@ -18,6 +18,8 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(members.router)
 app.include_router(sources.router)
+app.include_router(surveys.router)
+app.include_router(referrals.router)
 
 
 @app.get("/")
