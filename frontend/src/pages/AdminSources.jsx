@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api/client";
+import AnimatedThemeSwitch from "../components/AnimatedThemeSwitch";
 
 export default function AdminSources() {
   const [dashboard, setDashboard] = useState(null);
@@ -79,9 +79,9 @@ export default function AdminSources() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
+    <div className="min-h-screen bg-transparent text-slate-900 dark:text-slate-100 flex flex-col">
       {/* Top Console Navigation Bar */}
-      <nav className="bg-white border-b border-slate-200 sticky top-0 z-30">
+      <nav className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 sticky top-0 z-30">
         <div className="px-4 sm:px-8 py-3 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2.5">
@@ -117,10 +117,11 @@ export default function AdminSources() {
           </div>
 
           <div className="flex items-center gap-2.5">
+            <AnimatedThemeSwitch />
             <button
               type="button"
               onClick={() => navigate("/dashboard")}
-              className="px-3 py-1.5 text-xs font-medium rounded-md border border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors cursor-pointer"
+              className="px-3 py-1.5 text-xs font-medium rounded-md border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
             >
               ← Member View
             </button>
