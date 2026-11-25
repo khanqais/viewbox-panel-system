@@ -14,6 +14,7 @@ import Referrals from "./pages/Referrals";
 import AdminRespondents from "./pages/AdminRespondents";
 import AdminSources from "./pages/AdminSources";
 import AnimatedThemeSwitch from "./components/AnimatedThemeSwitch";
+import UserDropdown from "./components/UserDropdown";
 
 // Auth shell: Mobile-first card on phones, clean centered card on desktop with panel branding
 function AuthShell({ children }) {
@@ -39,9 +40,8 @@ function MemberShell({ children }) {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   const navItems = [
-    { label: "Active Studies", path: "/dashboard", icon: "📋" },
-    { label: "Referrals & Rewards", path: "/referrals", icon: "🎁" },
-    { label: "My Profile", path: "/profile", icon: "👤" },
+    { label: "Active Studies", path: "/dashboard"},
+    { label: "Referrals & Rewards", path: "/referrals"},
   ];
 
   const handleSignOut = () => {
@@ -93,33 +93,10 @@ function MemberShell({ children }) {
               </nav>
             </div>
 
-            {/* Right: Theme Switch, User Pill, Admin Shortcut & Sign Out */}
-            <div className="flex items-center gap-3">
+            {/* Right: Theme Switch & User Dropdown */}
+            <div className="flex items-center gap-2.5">
               <AnimatedThemeSwitch />
-
-              {user.role === "admin" && (
-                <Link
-                  to="/admin/respondents"
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer border border-slate-700/60"
-                >
-                  <span>Operations Console</span>
-                  <span className="text-2xs text-slate-400">→</span>
-                </Link>
-              )}
-
-              {user.phone && (
-                <div className="hidden sm:flex items-center px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-medium text-slate-700 dark:text-slate-200 tabular-nums">
-                  +91 {user.phone}
-                </div>
-              )}
-
-              <button
-                type="button"
-                onClick={handleSignOut}
-                className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium transition-colors cursor-pointer"
-              >
-                Sign Out
-              </button>
+              <UserDropdown user={user} onSignOut={handleSignOut} />
             </div>
           </div>
         </div>
@@ -271,4 +248,3 @@ export default function App() {
     </BrowserRouter>
   );
 }
-

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api/client";
 import AnimatedThemeSwitch from "../components/AnimatedThemeSwitch";
+import UserDropdown from "../components/UserDropdown";
 
 export default function AdminSources() {
   const [dashboard, setDashboard] = useState(null);
@@ -125,16 +127,13 @@ export default function AdminSources() {
             >
               ← Member View
             </button>
-            <button
-              type="button"
-              onClick={() => {
+            <UserDropdown
+              user={JSON.parse(localStorage.getItem("user") || "{}")}
+              onSignOut={() => {
                 localStorage.clear();
                 navigate("/login");
               }}
-              className="px-3 py-1.5 text-xs font-medium rounded-md hover:bg-slate-100 text-rose-600 transition-colors cursor-pointer"
-            >
-              Sign Out
-            </button>
+            />
           </div>
         </div>
 
