@@ -129,7 +129,18 @@ export default function Dashboard() {
           alignItems: "center",
         }}
       >
-        <div className="brand-badge">📊 ViewBox</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div className="brand-badge">📊 ViewBox</div>
+          {user?.role === "admin" && (
+            <button
+              className="btn btn-primary"
+              style={{ padding: "4px 10px", fontSize: "0.78rem" }}
+              onClick={() => navigate("/admin/respondents")}
+            >
+              👑 Admin Panel
+            </button>
+          )}
+        </div>
         <button
           className="btn btn-secondary"
           style={{ padding: "6px 12px", fontSize: "0.85rem" }}

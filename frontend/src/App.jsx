@@ -3,6 +3,8 @@ import Login from "./pages/Login";
 import ProfileOnboarding from "./pages/ProfileOnboarding";
 import Dashboard from "./pages/Dashboard";
 import Referrals from "./pages/Referrals";
+import AdminRespondents from "./pages/AdminRespondents";
+import AdminSources from "./pages/AdminSources";
 
 // Simple Protected Route wrapper checking for stored JWT token
 function ProtectedRoute({ children }) {
@@ -10,6 +12,22 @@ function ProtectedRoute({ children }) {
   if (!token) {
     return <Navigate to="/login" replace />;
   }
+  return children;
+}
+
+// Admin Route wrapper checking for admin role
+function AdminRoute({ children }) {
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  if (user.role !== "admin") {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
   return children;
 }
 
@@ -41,6 +59,22 @@ export default function App() {
               <ProtectedRoute>
                 <Referrals />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/respondents"
+            element={
+              <AdminRoute>
+                <AdminRespondents />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/sources"
+            element={
+              <AdminRoute>
+                <AdminSources />
+              </AdminRoute>
             }
           />
           {/* Default redirect to login or dashboard */}
