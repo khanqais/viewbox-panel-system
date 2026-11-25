@@ -10,6 +10,8 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [joining, setJoining] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [filter, setFilter] = useState("all"); // "all" | "eligible" | "waitlist"
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -51,7 +53,6 @@ export default function Dashboard() {
       const res = await api.post(`/api/surveys/${surveyId}/join`);
 
       if (res.data.success) {
-        // Reload surveys to update status
         const surveysRes = await api.get("/api/surveys/active");
         setSurveys(surveysRes.data || []);
       } else {
@@ -69,375 +70,426 @@ export default function Dashboard() {
     }
   };
 
-  const getEligibilityBadge = (status) => {
-    if (status === "approved")
-      return (
-        <span
-          className="badge"
-          style={{
-            backgroundColor: "var(--success-light)",
-            color: "var(--success)",
-            border: "1px solid var(--success)",
-          }}
-        >
-          ✓ Eligible
-        </span>
-      );
-    if (status === "waitlisted")
-      return (
-        <span
-          className="badge"
-          style={{
-            backgroundColor: "var(--warning-light)",
-            color: "var(--warning)",
-            border: "1px solid var(--warning)",
-          }}
-        >
-          ⏳ Waitlisted
-        </span>
-      );
-    return (
-      <span
-        className="badge"
-        style={{
-          backgroundColor: "#f1f5f9",
-          color: "var(--text-muted)",
-          border: "1px solid var(--border-color)",
-        }}
-      >
-        Not Eligible
-      </span>
-    );
+  const copyReferralLink = () => {
+    if (!user?.referral_link) return;
+    const fullLink = window.location.origin + user.referral_link;
+    navigator.clipboard.writeText(fullLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
+
+  const shareOnWhatsApp = () => {
+    if (!user?.referral_link) return;
+    const fullLink = window.location.origin + user.referral_link;
+    const text = encodeURIComponent(
+      `Join ViewBox Research Panel and earn cash rewards for answering surveys! Use my invite link: ${fullLink}`
+    );
+    window.open(`https://api.whatsapp.com/send?text=${text}`, "_blank");
+  };
+
+  // Filtered surveys
+  const filteredSurveys = surveys.filter((s) => {
+    if (filter === "eligible") return s.eligibility === "approved";
+    if (filter === "waitlist") return s.eligibility === "waitlisted";
+    return true;
+  });
+
+  const eligibleCount = surveys.filter((s) => s.eligibility === "approved").length;
+  const waitlistCount = surveys.filter((s) => s.eligibility === "waitlisted").length;
 
   if (loading) {
     return (
-      <div style={{ padding: 24, textAlign: "center" }}>
-        <p style={{ color: "var(--text-secondary)" }}>Loading dashboard...</p>
+      <div className="flex flex-col items-center justify-center py-24 text-center">
+        <div className="w-9 h-9 border-3 border-blue-600/30 border-t-blue-600 rounded-full animate-spin mb-3.5" />
+        <p className="text-sm font-semibold text-slate-700">Checking survey eligibility...</p>
+        <p className="text-xs text-slate-400 mt-1">Screening against 3-month cool-off and demographic rules</p>
       </div>
     );
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      {/* Header */}
-      <div
-        className="app-header"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div className="brand-badge">📊 ViewBox</div>
-          {user?.role === "admin" && (
-            <button
-              className="btn btn-primary"
-              style={{ padding: "4px 10px", fontSize: "0.78rem" }}
-              onClick={() => navigate("/admin/respondents")}
-            >
-              👑 Admin Panel
-            </button>
-          )}
-        </div>
-        <button
-          className="btn btn-secondary"
-          style={{ padding: "6px 12px", fontSize: "0.85rem" }}
-          onClick={() => {
-            localStorage.clear();
-            navigate("/login");
-          }}
-        >
-          Sign Out
-        </button>
-      </div>
-
-      {/* Main Content */}
-      <div style={{ padding: "20px", flexGrow: 1 }}>
-        {/* Welcome Section */}
-        <div style={{ marginBottom: 24 }}>
-          <h2
-            style={{
-              margin: "0 0 6px",
-              fontSize: "1.3rem",
-              fontWeight: 700,
-              color: "var(--text-primary)",
-            }}
+    <div className="space-y-6">
+      {/* Global Error Banner */}
+      {errorMsg && (
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-medium flex items-center justify-between shadow-2xs">
+          <span>{errorMsg}</span>
+          <button
+            type="button"
+            onClick={() => setErrorMsg("")}
+            className="text-rose-500 hover:text-rose-700 font-bold ml-2 cursor-pointer"
           >
-            Welcome, {user?.name || "Member"}!
-          </h2>
-          <p style={{ margin: 0, fontSize: "0.88rem", color: "var(--text-secondary)" }}>
-            {user?.referral_code && (
-              <>
-                Your referral code: <strong>{user.referral_code}</strong>
-              </>
-            )}
-          </p>
+            ✕
+          </button>
         </div>
+      )}
 
-        {/* Referral Link Card */}
-        {user?.referral_link && (
-          <div
-            style={{
-              backgroundColor: "var(--primary-light)",
-              border: "1px solid #bfdbfe",
-              borderRadius: 10,
-              padding: 14,
-              marginBottom: 20,
-              textAlign: "left",
-            }}
-          >
-            <div
-              style={{
-                fontSize: "0.82rem",
-                fontWeight: 600,
-                color: "var(--primary)",
-                marginBottom: 6,
-              }}
-            >
-              🎁 Invite Friends & Earn
-            </div>
-            <div style={{ fontSize: "0.78rem", color: "var(--text-secondary)", marginBottom: 8 }}>
-              Share your personal invite link. When they complete a survey, you both earn bonuses!
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                backgroundColor: "#ffffff",
-                padding: "8px 12px",
-                borderRadius: 6,
-                fontSize: "0.82rem",
-                fontFamily: "monospace",
-                border: "1px solid #e0e7ff",
-              }}
-            >
-              <span style={{ flexGrow: 1, overflow: "hidden", textOverflow: "ellipsis" }}>
-                {window.location.origin + user.referral_link}
+      {/* Main Responsive Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+        {/* Left Column / Desktop Sidebar */}
+        <aside className="lg:col-span-4 space-y-5 lg:sticky lg:top-24">
+          {/* Respondent Profile Card */}
+          <div className="p-5 rounded-2xl bg-slate-900 text-white shadow-xs">
+            <div className="flex items-start justify-between gap-3 mb-3">
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block mb-1">
+                  Panel Respondent
+                </span>
+                <h2 className="text-lg font-bold tracking-tight text-white leading-tight">
+                  {user?.name || "Panel Member"}
+                </h2>
+                <p className="text-xs font-mono text-slate-400 mt-0.5 tabular-nums">
+                  {user?.phone ? `+91 ${user.phone}` : "Verified Member"}
+                </p>
+              </div>
+              <span className="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                ✓ Active
               </span>
+            </div>
+
+            {/* Quick Demographics Preview */}
+            {user?.profile && (
+              <div className="py-2.5 px-3 rounded-xl bg-slate-800/80 border border-slate-700/80 text-xs space-y-1.5 my-3">
+                <div className="flex items-center justify-between text-slate-300">
+                  <span className="text-slate-400">City:</span>
+                  <span className="font-semibold text-white">{user.profile.city || "—"}</span>
+                </div>
+                <div className="flex items-center justify-between text-slate-300">
+                  <span className="text-slate-400">Income:</span>
+                  <span className="font-semibold text-white">{user.profile.income_range || "—"}</span>
+                </div>
+                <div className="flex items-center justify-between text-slate-300">
+                  <span className="text-slate-400">Interests:</span>
+                  <span className="font-semibold text-white">
+                    {user.profile.interests?.length || 0} categories
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Referral Code Box */}
+            <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+              <div>
+                <span className="text-slate-400 text-[11px] block">Referral ID:</span>
+                <span className="font-mono font-bold text-blue-400 text-sm">
+                  {user?.referral_code || "VB0000"}
+                </span>
+              </div>
               <button
-                className="btn btn-secondary"
-                style={{ padding: "4px 10px", fontSize: "0.75rem", whiteSpace: "nowrap" }}
-                onClick={() => {
-                  navigator.clipboard.writeText(window.location.origin + user.referral_link);
-                  alert("Link copied to clipboard!");
-                }}
+                type="button"
+                onClick={() => navigate("/profile")}
+                className="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors cursor-pointer"
               >
-                Copy
+                Edit Profile →
               </button>
             </div>
           </div>
-        )}
 
-        {errorMsg && <div className="banner-error">{errorMsg}</div>}
+          {/* Invite & Earn Box */}
+          {user?.referral_link && (
+            <div className="p-5 rounded-2xl border border-blue-200 bg-blue-50/70 shadow-2xs">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-blue-900 flex items-center gap-1.5">
+                  <span>🎁</span> Earn ₹100 Per Referral
+                </span>
+                <span className="text-[11px] font-semibold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">
+                  Cash Bonus
+                </span>
+              </div>
+              <p className="text-xs text-blue-800/90 leading-relaxed mb-3">
+                Share your invite link with colleagues & friends. Earn ₹100 once they complete their first eligible study.
+              </p>
 
-        {/* Quick Actions */}
-        <div style={{ display: "flex", gap: 10, marginBottom: 24 }}>
-          <button
-            className="btn btn-secondary"
-            style={{ flex: 1, fontSize: "0.85rem", padding: "10px" }}
-            onClick={() => navigate("/profile")}
-          >
-            📝 Edit Profile
-          </button>
-          <button
-            className="btn btn-secondary"
-            style={{ flex: 1, fontSize: "0.85rem", padding: "10px" }}
-            onClick={() => navigate("/referrals")}
-          >
-            👥 My Referrals
-          </button>
-        </div>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 px-3 py-2 bg-white border border-blue-200 rounded-lg text-xs font-mono text-slate-700 truncate select-all">
+                    {window.location.origin + user.referral_link}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={copyReferralLink}
+                    className="px-3.5 py-2 text-xs font-semibold rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-all cursor-pointer whitespace-nowrap active:scale-[0.98] shadow-xs"
+                  >
+                    {copied ? "✓ Copied" : "Copy"}
+                  </button>
+                </div>
 
-        {/* Live Surveys Section */}
-        <div style={{ marginBottom: 16 }}>
-          <h3
-            style={{
-              margin: "0 0 12px",
-              fontSize: "1.05rem",
-              fontWeight: 600,
-              color: "var(--text-primary)",
-            }}
-          >
-            📋 Live Surveys ({surveys.length})
-          </h3>
-        </div>
+                <button
+                  type="button"
+                  onClick={shareOnWhatsApp}
+                  className="w-full py-2 px-3 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-2xs"
+                >
+                  <span>💬</span> Share on WhatsApp
+                </button>
+              </div>
 
-        {surveys.length === 0 ? (
-          <div
-            style={{
-              backgroundColor: "#ffffff",
-              border: "1px solid var(--border-color)",
-              borderRadius: 10,
-              padding: 32,
-              textAlign: "center",
-            }}
-          >
-            <div style={{ fontSize: "2.5rem", marginBottom: 12 }}>📭</div>
-            <p style={{ margin: "0 0 6px", fontSize: "0.95rem", fontWeight: 600 }}>
-              No Live Surveys Right Now
+              <div className="mt-3 pt-3 border-t border-blue-200/60 text-right">
+                <button
+                  type="button"
+                  onClick={() => navigate("/referrals")}
+                  className="text-xs font-semibold text-blue-700 hover:text-blue-900 cursor-pointer"
+                >
+                  View Referral Ledger ({user?.referral_count || 0}) →
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Research Quality Policy Card */}
+          <div className="p-4 rounded-2xl border border-slate-200 bg-white text-xs text-slate-600 shadow-2xs space-y-2">
+            <h4 className="font-bold text-slate-900 flex items-center gap-1.5 text-xs uppercase tracking-wider">
+              <span>🛡️</span> Sampling Protocol
+            </h4>
+            <p className="text-[11px] text-slate-500 leading-relaxed">
+              <strong>3-Month Cool-off:</strong> Completing a study places your account in a 90-day rest period for that specific industry to maintain unbiased data.
             </p>
-            <p style={{ margin: 0, fontSize: "0.82rem", color: "var(--text-secondary)" }}>
-              New paid surveys are posted regularly. Check back soon!
+            <p className="text-[11px] text-slate-500 leading-relaxed">
+              <strong>Flexible Screening:</strong> Waitlist slots are reviewed manually by project researchers as capacity opens.
             </p>
           </div>
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {surveys.map((survey) => {
-              const isApproved = survey.eligibility === "approved";
-              const isWaitlisted = survey.eligibility === "waitlisted";
-              const alreadyJoined = survey.already_joined;
-              const matchesInterests = survey.matches_interests;
+        </aside>
 
-              return (
-                <div
-                  key={survey.id}
-                  style={{
-                    backgroundColor: matchesInterests ? "#fffdf5" : "#ffffff",
-                    border: matchesInterests
-                      ? "1.5px solid #f59e0b"
-                      : isApproved && !alreadyJoined
-                      ? "1.5px solid var(--primary)"
-                      : "1px solid var(--border-color)",
-                    borderRadius: 10,
-                    padding: 16,
-                    textAlign: "left",
-                    position: "relative",
-                  }}
+        {/* Right Column / Surveys Feed */}
+        <section className="lg:col-span-8 space-y-5">
+          {/* Studies Header & Filters */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-white rounded-2xl border border-slate-200 shadow-2xs">
+            <div>
+              <h1 className="text-lg font-bold tracking-tight text-slate-900">
+                Available Research Studies
+              </h1>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Automatically pre-screened based on your demographic profile & cool-off
+              </p>
+            </div>
+
+            {/* Filter Pills */}
+            <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl text-xs font-semibold">
+              <button
+                type="button"
+                onClick={() => setFilter("all")}
+                className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                  filter === "all"
+                    ? "bg-white text-slate-900 shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                All ({surveys.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setFilter("eligible")}
+                className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                  filter === "eligible"
+                    ? "bg-white text-emerald-700 shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                Eligible ({eligibleCount})
+              </button>
+              <button
+                type="button"
+                onClick={() => setFilter("waitlist")}
+                className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                  filter === "waitlist"
+                    ? "bg-white text-amber-800 shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                Waitlist ({waitlistCount})
+              </button>
+            </div>
+          </div>
+
+          {/* Surveys List / Grid */}
+          {filteredSurveys.length === 0 ? (
+            <div className="p-12 text-center rounded-2xl border border-dashed border-slate-200 bg-white">
+              <span className="text-4xl block mb-2.5">📋</span>
+              <h3 className="text-base font-bold text-slate-800 mb-1">
+                No Studies In This Category
+              </h3>
+              <p className="text-xs text-slate-500 max-w-sm mx-auto mb-4">
+                {filter === "eligible"
+                  ? "You do not have any immediately eligible studies right now. Check the waitlist tab or update your profile interests."
+                  : "New consumer research campaigns are added weekly. Check back soon."}
+              </p>
+              {filter !== "all" && (
+                <button
+                  type="button"
+                  onClick={() => setFilter("all")}
+                  className="px-4 py-2 text-xs font-semibold rounded-lg bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
                 >
-                  {/* Matching Interests Highlight Ribbon */}
-                  {matchesInterests && (
-                    <div style={{ marginBottom: 8 }}>
-                      <span
-                        className="badge"
-                        style={{
-                          backgroundColor: "#fef3c7",
-                          color: "#92400e",
-                          border: "1px solid #fde68a",
-                        }}
-                      >
-                        ⭐ Matches Your Interests
-                      </span>
-                    </div>
-                  )}
+                  View All Studies
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {filteredSurveys.map((survey) => {
+                const isApproved = survey.eligibility === "approved";
+                const isWaitlisted = survey.eligibility === "waitlisted";
+                const alreadyJoined = survey.already_joined;
+                const matchesInterests = survey.matches_interests;
+                const percentFilled = Math.min(
+                  100,
+                  Math.round(((survey.filled || 0) / (survey.quota || 1)) * 100)
+                );
 
-                  {/* Survey Header */}
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                    <h4
-                      style={{
-                        margin: 0,
-                        fontSize: "0.95rem",
-                        fontWeight: 600,
-                        color: "var(--text-primary)",
-                      }}
-                    >
-                      {survey.title}
-                    </h4>
-                    {getEligibilityBadge(survey.eligibility)}
-                  </div>
-
-                  {/* Description */}
-                  {survey.description && (
-                    <p
-                      style={{
-                        margin: "6px 0 10px",
-                        fontSize: "0.82rem",
-                        color: "var(--text-secondary)",
-                        lineHeight: 1.4,
-                      }}
-                    >
-                      {survey.description}
-                    </p>
-                  )}
-
-                  {/* Meta Info */}
+                return (
                   <div
-                    style={{
-                      display: "flex",
-                      gap: 12,
-                      marginBottom: 10,
-                      fontSize: "0.78rem",
-                      color: "var(--text-muted)",
-                      flexWrap: "wrap",
-                    }}
+                    key={survey.id}
+                    className={`p-5 rounded-2xl border transition-all text-left bg-white flex flex-col justify-between ${
+                      matchesInterests
+                        ? "border-amber-300 ring-1 ring-amber-200/80 shadow-xs"
+                        : isApproved && !alreadyJoined
+                        ? "border-blue-300 ring-1 ring-blue-100 shadow-xs"
+                        : "border-slate-200 shadow-2xs"
+                    }`}
                   >
-                    <span>💰 ₹{survey.reward_amount}</span>
-                    <span>
-                      📊 {survey.filled}/{survey.quota} filled
-                    </span>
-                    <span>📅 Deadline: {new Date(survey.deadline).toLocaleDateString()}</span>
-                    {survey.category && <span>🏷️ {survey.category}</span>}
-                  </div>
-
-                  {/* Eligibility Reason */}
-                  <div
-                    style={{
-                      fontSize: "0.78rem",
-                      color:
-                        survey.eligibility === "approved"
-                          ? "var(--success)"
-                          : survey.eligibility === "waitlisted"
-                          ? "#b45309"
-                          : "var(--text-muted)",
-                      marginBottom: 10,
-                      fontWeight: 500,
-                    }}
-                  >
-                    {survey.eligibility_reason}
-                  </div>
-
-                  {/* Actions */}
-                  {alreadyJoined ? (
-                    <div
-                      className="banner-info"
-                      style={{ padding: 8, fontSize: "0.78rem", marginTop: 8 }}
-                    >
-                      Already joined • Status: <strong>{survey.participation_result}</strong>
-                    </div>
-                  ) : isApproved ? (
-                    <button
-                      className="btn btn-primary btn-block"
-                      style={{ fontSize: "0.85rem", padding: "10px" }}
-                      disabled={joining === survey.id}
-                      onClick={() => handleJoinSurvey(survey.id)}
-                    >
-                      {joining === survey.id ? "Joining..." : "Join Survey →"}
-                    </button>
-                  ) : isWaitlisted ? (
                     <div>
-                      <button
-                        className="btn btn-secondary btn-block"
-                        style={{
-                          fontSize: "0.85rem",
-                          padding: "10px",
-                          border: "1px solid #f59e0b",
-                          color: "#b45309",
-                          backgroundColor: "#fffbeb",
-                        }}
-                        disabled={joining === survey.id}
-                        onClick={() => handleJoinSurvey(survey.id)}
-                      >
-                        {joining === survey.id ? "Joining Waitlist..." : "Join Waitlist →"}
-                      </button>
-                      <div
-                        style={{
-                          fontSize: "0.72rem",
-                          color: "var(--text-muted)",
-                          marginTop: 4,
-                          textAlign: "center",
-                        }}
-                      >
-                        Flexible criteria applied • Ops may approve as slots open
+                      {/* Matching Interests Tag */}
+                      {matchesInterests && (
+                        <div className="mb-2">
+                          <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
+                            ⭐ Matches Your Interests
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Header: Title + Status Badge */}
+                      <div className="flex items-start justify-between gap-2.5 mb-2">
+                        <h3 className="text-sm font-bold text-slate-900 leading-snug">
+                          {survey.title}
+                        </h3>
+                        {isApproved ? (
+                          <span className="shrink-0 text-[11px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            ✓ Eligible
+                          </span>
+                        ) : isWaitlisted ? (
+                          <span className="shrink-0 text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
+                            ⏳ Waitlist
+                          </span>
+                        ) : (
+                          <span className="shrink-0 text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 border border-slate-200">
+                            Ineligible
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Description */}
+                      {survey.description && (
+                        <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed mb-3.5">
+                          {survey.description}
+                        </p>
+                      )}
+
+                      {/* Meta Chips */}
+                      <div className="grid grid-cols-3 gap-2 py-2 px-3 bg-slate-50 rounded-xl border border-slate-100 text-[11px] text-slate-600 mb-3 tabular-nums">
+                        <div>
+                          <span className="text-[10px] text-slate-400 block uppercase font-medium">Reward</span>
+                          <strong className="text-slate-900 font-bold text-xs">₹{survey.reward_amount}</strong>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-slate-400 block uppercase font-medium">Quota</span>
+                          <span className="font-semibold text-slate-800">
+                            {survey.filled}/{survey.quota}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] text-slate-400 block uppercase font-medium">Deadline</span>
+                          <span className="font-semibold text-slate-800">
+                            {new Date(survey.deadline).toLocaleDateString("en-IN", {
+                              month: "short",
+                              day: "numeric",
+                            })}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Quota Progress Bar */}
+                      <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-3">
+                        <div
+                          className={`h-full rounded-full transition-all ${
+                            percentFilled >= 100
+                              ? "bg-rose-500"
+                              : percentFilled > 75
+                              ? "bg-amber-500"
+                              : "bg-blue-600"
+                          }`}
+                          style={{ width: `${percentFilled}%` }}
+                        />
+                      </div>
+
+                      {/* Eligibility Reason / Cool-off Warning */}
+                      <div className="mb-4 text-xs flex items-start gap-1.5 leading-relaxed">
+                        {isApproved ? (
+                          <span className="text-emerald-700 font-medium">
+                            ✓ {survey.eligibility_reason}
+                          </span>
+                        ) : isWaitlisted ? (
+                          <span className="text-amber-800 font-medium">
+                            ⚠️ {survey.eligibility_reason}
+                          </span>
+                        ) : (
+                          <span className="text-slate-500">
+                            ✕ {survey.eligibility_reason}
+                          </span>
+                        )}
                       </div>
                     </div>
-                  ) : null}
-                </div>
-              );
-            })}
-          </div>
-        )}
+
+                    {/* Action Button */}
+                    <div>
+                      {alreadyJoined ? (
+                        <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center text-xs text-slate-600 font-medium">
+                          Registered • Status:{" "}
+                          <strong className="text-slate-900 uppercase">
+                            {survey.participation_result || "Submitted"}
+                          </strong>
+                        </div>
+                      ) : isApproved ? (
+                        <button
+                          type="button"
+                          onClick={() => handleJoinSurvey(survey.id)}
+                          disabled={joining === survey.id}
+                          className="w-full py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white text-xs font-semibold shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                        >
+                          {joining === survey.id ? (
+                            <>
+                              <span className="inline-block w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                              <span>Joining Study...</span>
+                            </>
+                          ) : (
+                            <span>Join Study & Earn ₹{survey.reward_amount} →</span>
+                          )}
+                        </button>
+                      ) : isWaitlisted ? (
+                        <div>
+                          <button
+                            type="button"
+                            onClick={() => handleJoinSurvey(survey.id)}
+                            disabled={joining === survey.id}
+                            className="w-full py-2.5 px-3 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 text-xs font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-[0.98]"
+                          >
+                            {joining === survey.id ? (
+                              <>
+                                <span className="inline-block w-3.5 h-3.5 border-2 border-amber-900/30 border-t-amber-900 rounded-full animate-spin" />
+                                <span>Joining Waitlist...</span>
+                              </>
+                            ) : (
+                              <span>Join Waitlist (Flexible Screen) →</span>
+                            )}
+                          </button>
+                          <p className="text-[10px] text-slate-400 text-center mt-1">
+                            Researchers manually admit waitlisted respondents as slots open.
+                          </p>
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );

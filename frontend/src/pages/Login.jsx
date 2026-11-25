@@ -13,7 +13,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Store referral or source token from query params if present
   useEffect(() => {
     const refToken = searchParams.get("ref");
     const sourceSlug = searchParams.get("source");
@@ -43,7 +42,7 @@ export default function Login() {
       setStep("otp");
       const receivedOtp = res.data.mock_otp || "123456";
       setMockOtp(receivedOtp);
-      setOtp(receivedOtp); // Pre-fill mock OTP for smooth testing experience
+      setOtp(receivedOtp);
     } catch (err) {
       const detail = err.response?.data?.detail;
       setErrorMsg(
@@ -64,7 +63,7 @@ export default function Login() {
     const cleanOtp = otp.trim();
 
     if (!cleanOtp) {
-      setErrorMsg("Please enter the OTP");
+      setErrorMsg("Please enter the verification code");
       return;
     }
 
@@ -81,7 +80,6 @@ export default function Login() {
       localStorage.setItem("token", access_token);
       localStorage.setItem("user", JSON.stringify(user));
 
-      // Check if user has an existing profile
       try {
         const profileRes = await api.get("/api/members/me");
         if (profileRes.data.has_profile) {
@@ -90,7 +88,6 @@ export default function Login() {
           navigate("/profile");
         }
       } catch {
-        // If checking profile fails, default to profile onboarding
         navigate("/profile");
       }
     } catch (err) {
@@ -100,7 +97,7 @@ export default function Login() {
           ? detail
           : Array.isArray(detail)
           ? detail[0]?.msg
-          : "Invalid OTP. Please try again."
+          : "Invalid verification code. Please try again."
       );
     } finally {
       setLoading(false);
@@ -108,140 +105,169 @@ export default function Login() {
   };
 
   return (
-    <div style={{ padding: "32px 24px", display: "flex", flexDirection: "column", flexGrow: 1 }}>
+    <div className="flex flex-col flex-1 px-6 py-10 sm:px-8 justify-between">
       {/* Brand Header */}
-      <div style={{ textAlign: "center", marginBottom: 32 }}>
-        <div style={{ fontSize: "2rem", marginBottom: 8 }}>📊</div>
-        <h1 style={{ margin: "0 0 6px", fontSize: "1.5rem", fontWeight: 700, color: "var(--text-primary)" }}>
-          ViewBox Club
-        </h1>
-        <p style={{ margin: 0, fontSize: "0.9rem", color: "var(--text-secondary)" }}>
-          Consumer Research & Insights Panel
-        </p>
-      </div>
+      <div>
+        <div className="flex items-center gap-2 mb-8">
+          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm tracking-tight shadow-sm">
+            VB
+          </div>
+          <span className="font-semibold text-slate-900 text-lg tracking-tight">
+            ViewBox Panel
+          </span>
+          <span className="ml-auto text-xs px-2 py-0.5 rounded font-medium bg-slate-100 text-slate-600 border border-slate-200">
+            Research Portal
+          </span>
+        </div>
 
-      {/* Main Card */}
-      <div
-        style={{
-          backgroundColor: "#ffffff",
-          border: "1px solid var(--border-color)",
-          borderRadius: 12,
-          padding: 24,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-        }}
-      >
-        <h2 style={{ fontSize: "1.15rem", fontWeight: 600, margin: "0 0 16px" }}>
-          {step === "phone" ? "Enter Mobile Number" : "Verify OTP"}
-        </h2>
+        {/* Hero Context */}
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-2">
+            {step === "phone" ? "Sign in with phone" : "Verify code"}
+          </h1>
+          <p className="text-sm text-slate-500 leading-relaxed">
+            {step === "phone"
+              ? "Access paid consumer research studies and track your referral bonuses."
+              : `Enter 6-digit code sent to +91 ${phone}`}
+          </p>
+        </div>
 
-        {errorMsg && <div className="banner-error">{errorMsg}</div>}
+        {/* Error message */}
+        {errorMsg && (
+          <div className="mb-5 p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-xs font-medium flex items-start gap-2">
+            <span className="font-bold">Error:</span>
+            <span>{errorMsg}</span>
+          </div>
+        )}
 
+        {/* Step 1: Phone Entry */}
         {step === "phone" ? (
-          <form onSubmit={handleSendOtp}>
-            <div className="input-group">
-              <label className="input-label" htmlFor="phone-input">
-                Phone Number
+          <form onSubmit={handleSendOtp} className="space-y-4">
+            <div>
+              <label
+                htmlFor="phone-input"
+                className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5"
+              >
+                Mobile Number
               </label>
-              <input
-                id="phone-input"
-                className="input-field"
-                type="tel"
-                placeholder="e.g. 9876543210"
-                maxLength={13}
-                value={phone}
-                onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
-                autoFocus
-              />
-              <span style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>
-                We'll send a 6-digit verification code.
-              </span>
+              <div className="relative flex items-center rounded-lg border border-slate-300 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-100 bg-white transition-all">
+                <span className="pl-3.5 pr-2.5 py-3 text-sm font-semibold text-slate-500 border-r border-slate-200 bg-slate-50 select-none rounded-l-lg">
+                  +91
+                </span>
+                <input
+                  id="phone-input"
+                  type="tel"
+                  placeholder="9876543210"
+                  maxLength={10}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+                  className="w-full pl-3 pr-3 py-3 text-base text-slate-900 placeholder:text-slate-400 bg-transparent outline-none tabular-nums"
+                  autoFocus
+                />
+              </div>
+              <p className="mt-1.5 text-xs text-slate-400">
+                Any 10-digit number accepted for this demo.
+              </p>
             </div>
 
             <button
               type="submit"
-              className="btn btn-primary btn-block"
               disabled={loading || phone.trim().length < 10}
+              className="w-full py-3 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none text-white font-semibold text-sm shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              {loading ? "Sending..." : "Get OTP →"}
+              {loading ? (
+                <>
+                  <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span>Requesting code...</span>
+                </>
+              ) : (
+                <span>Continue →</span>
+              )}
             </button>
           </form>
         ) : (
-          <form onSubmit={handleVerifyOtp}>
+          /* Step 2: OTP Entry */
+          <form onSubmit={handleVerifyOtp} className="space-y-4">
             {mockOtp && (
-              <div className="banner-info" style={{ justifyContent: "space-between" }}>
-                <span>
-                  Demo OTP: <strong>{mockOtp}</strong> (any OTP accepted)
-                </span>
+              <div className="p-3 rounded-lg bg-blue-50 border border-blue-200 text-blue-900 text-xs flex items-center justify-between">
+                <div>
+                  <span className="text-blue-700 font-medium">Demo Passcode:</span>{" "}
+                  <span className="font-mono font-bold tracking-widest text-blue-900 text-sm">
+                    {mockOtp}
+                  </span>
+                </div>
                 <button
                   type="button"
-                  style={{
-                    background: "none",
-                    border: "none",
-                    color: "var(--primary)",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                    padding: 0,
-                    textDecoration: "underline",
-                  }}
                   onClick={() => setOtp(mockOtp)}
+                  className="text-xs font-semibold text-blue-600 hover:text-blue-800 underline cursor-pointer"
                 >
-                  Use OTP
+                  Auto-fill
                 </button>
               </div>
             )}
 
-            <div className="input-group">
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <label className="input-label" htmlFor="otp-input">
-                  6-Digit OTP
+            <div>
+              <div className="flex justify-between items-center mb-1.5">
+                <label
+                  htmlFor="otp-input"
+                  className="block text-xs font-semibold text-slate-700 uppercase tracking-wider"
+                >
+                  6-Digit Code
                 </label>
                 <button
                   type="button"
-                  style={{
-                    background: "none",
-                    border: "none",
-                    color: "var(--text-muted)",
-                    fontSize: "0.8rem",
-                    cursor: "pointer",
-                    textDecoration: "underline",
-                  }}
                   onClick={() => {
                     setStep("phone");
                     setErrorMsg("");
                   }}
+                  className="text-xs text-blue-600 hover:text-blue-700 font-medium cursor-pointer"
                 >
-                  Change ({phone})
+                  Change phone
                 </button>
               </div>
               <input
                 id="otp-input"
-                className="input-field"
                 type="text"
-                placeholder="Enter 6-digit OTP"
+                placeholder="123456"
                 maxLength={6}
                 value={otp}
-                onChange={(e) => setOtp(e.target.value)}
+                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                className="w-full px-3.5 py-3 text-center text-xl font-mono tracking-[0.5em] text-slate-900 placeholder:text-slate-300 rounded-lg border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all tabular-nums bg-white"
                 autoFocus
-                style={{ textAlign: "center", fontSize: "1.25rem", letterSpacing: "4px", fontWeight: 700 }}
               />
             </div>
 
             <button
               type="submit"
-              className="btn btn-primary btn-block"
-              disabled={loading || !otp.trim()}
+              disabled={loading || otp.trim().length === 0}
+              className="w-full py-3 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none text-white font-semibold text-sm shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              {loading ? "Verifying..." : "Verify & Continue →"}
+              {loading ? (
+                <>
+                  <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span>Verifying...</span>
+                </>
+              ) : (
+                <span>Verify & Continue →</span>
+              )}
             </button>
           </form>
         )}
       </div>
 
-      {/* Footer Info */}
-      <div style={{ marginTop: "auto", paddingTop: 24, textAlign: "center" }}>
-        <p style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>
-          Strict 15-day study cycles • Referral rewards upon survey completion
-        </p>
+      {/* Demo Credentials Helper */}
+      <div className="pt-6 mt-6 border-t border-slate-100">
+        <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/70 text-[11px] text-slate-500 space-y-1">
+          <div className="font-semibold text-slate-700 flex items-center justify-between">
+            <span>💡 Demo Quick Access</span>
+            <span className="text-[10px] bg-slate-200 text-slate-700 px-1.5 py-0.2 rounded font-mono">Mock OTP: 123456</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-slate-600">
+            <span>Admin: <strong className="font-mono text-slate-800">8454803210</strong></span>
+            <span>•</span>
+            <span>Member: <strong className="font-mono text-slate-800">9876500001</strong> (or any 10-digit number)</span>
+          </div>
+        </div>
       </div>
     </div>
   );
