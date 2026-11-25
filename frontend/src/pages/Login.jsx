@@ -112,17 +112,17 @@ export default function Login() {
           <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm tracking-tight shadow-sm">
             VB
           </div>
-          <span className="font-semibold text-slate-900 text-lg tracking-tight">
+          <span className="font-semibold text-slate-900 text-base tracking-tight">
             ViewBox Panel
           </span>
-          <span className="ml-auto text-xs px-2 py-0.5 rounded font-medium bg-slate-100 text-slate-600 border border-slate-200">
+          <span className="ml-auto text-xs px-2 py-0.5 rounded font-medium bg-slate-100 text-slate-500 border border-slate-200 tracking-wide">
             Research Portal
           </span>
         </div>
 
         {/* Hero Context */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-2">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-2 leading-tight">
             {step === "phone" ? "Sign in with phone" : "Verify code"}
           </h1>
           <p className="text-sm text-slate-500 leading-relaxed">
@@ -146,7 +146,7 @@ export default function Login() {
             <div>
               <label
                 htmlFor="phone-input"
-                className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5"
+                className="block tracking-label text-slate-700 mb-1.5"
               >
                 Mobile Number
               </label>
@@ -161,7 +161,7 @@ export default function Login() {
                   maxLength={10}
                   value={phone}
                   onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
-                  className="w-full pl-3 pr-3 py-3 text-base text-slate-900 placeholder:text-slate-400 bg-transparent outline-none tabular-nums"
+                  className="w-full pl-3 pr-3 py-3 text-base text-slate-900 placeholder:text-slate-400 bg-transparent outline-none tabular-nums font-mono"
                   autoFocus
                 />
               </div>
@@ -210,7 +210,7 @@ export default function Login() {
               <div className="flex justify-between items-center mb-1.5">
                 <label
                   htmlFor="otp-input"
-                  className="block text-xs font-semibold text-slate-700 uppercase tracking-wider"
+                className="block tracking-label text-slate-700"
                 >
                   6-Digit Code
                 </label>
@@ -232,7 +232,7 @@ export default function Login() {
                 maxLength={6}
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                className="w-full px-3.5 py-3 text-center text-xl font-mono tracking-[0.5em] text-slate-900 placeholder:text-slate-300 rounded-lg border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all tabular-nums bg-white"
+                className="w-full px-3.5 py-3 text-center text-xl font-mono tracking-[0.5em] text-slate-900 placeholder:text-slate-300 rounded-lg border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all tabular-nums otp-input bg-white"
                 autoFocus
               />
             </div>
@@ -255,17 +255,16 @@ export default function Login() {
         )}
       </div>
 
-      {/* Demo Credentials Helper */}
       <div className="pt-6 mt-6 border-t border-slate-100">
-        <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/70 text-[11px] text-slate-500 space-y-1">
+        <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/70 text-xs text-slate-500 space-y-1">
           <div className="font-semibold text-slate-700 flex items-center justify-between">
             <span>💡 Demo Quick Access</span>
-            <span className="text-[10px] bg-slate-200 text-slate-700 px-1.5 py-0.2 rounded font-mono">Mock OTP: 123456</span>
+            <span className="text-2xs bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded font-mono">Mock OTP: 123456</span>
           </div>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-slate-600">
             <span>Admin: <strong className="font-mono text-slate-800">8454803210</strong></span>
             <span>•</span>
-            <span>Member: <strong className="font-mono text-slate-800">9876500001</strong> (or any 10-digit number)</span>
+            <span>Member: <strong className="font-mono text-slate-800">9876500001</strong></span>
           </div>
         </div>
       </div>

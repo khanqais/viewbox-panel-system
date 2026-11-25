@@ -131,7 +131,7 @@ export default function Dashboard() {
           <div className="p-5 rounded-2xl bg-slate-900 text-white shadow-xs">
             <div className="flex items-start justify-between gap-3 mb-3">
               <div>
-                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block mb-1">
+                <span className="tracking-label text-slate-400 block mb-1">
                   Panel Respondent
                 </span>
                 <h2 className="text-lg font-bold tracking-tight text-white leading-tight">
@@ -141,7 +141,7 @@ export default function Dashboard() {
                   {user?.phone ? `+91 ${user.phone}` : "Verified Member"}
                 </p>
               </div>
-              <span className="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <span className="shrink-0 text-2xs font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                 ✓ Active
               </span>
             </div>
@@ -169,7 +169,7 @@ export default function Dashboard() {
             {/* Referral Code Box */}
             <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
               <div>
-                <span className="text-slate-400 text-[11px] block">Referral ID:</span>
+                <span className="text-slate-400 text-2xs block">Referral ID:</span>
                 <span className="font-mono font-bold text-blue-400 text-sm">
                   {user?.referral_code || "VB0000"}
                 </span>
@@ -191,7 +191,7 @@ export default function Dashboard() {
                 <span className="text-xs font-bold uppercase tracking-wider text-blue-900 flex items-center gap-1.5">
                   <span>🎁</span> Earn ₹100 Per Referral
                 </span>
-                <span className="text-[11px] font-semibold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">
+                <span className="text-2xs font-semibold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">
                   Cash Bonus
                 </span>
               </div>
@@ -239,10 +239,10 @@ export default function Dashboard() {
             <h4 className="font-bold text-slate-900 flex items-center gap-1.5 text-xs uppercase tracking-wider">
               <span>🛡️</span> Sampling Protocol
             </h4>
-            <p className="text-[11px] text-slate-500 leading-relaxed">
+            <p className="text-2xs text-slate-500 leading-relaxed">
               <strong>3-Month Cool-off:</strong> Completing a study places your account in a 90-day rest period for that specific industry to maintain unbiased data.
             </p>
-            <p className="text-[11px] text-slate-500 leading-relaxed">
+            <p className="text-2xs text-slate-500 leading-relaxed">
               <strong>Flexible Screening:</strong> Waitlist slots are reviewed manually by project researchers as capacity opens.
             </p>
           </div>
@@ -256,7 +256,7 @@ export default function Dashboard() {
               <h1 className="text-lg font-bold tracking-tight text-slate-900">
                 Available Research Studies
               </h1>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
                 Automatically pre-screened based on your demographic profile & cool-off
               </p>
             </div>
@@ -348,7 +348,7 @@ export default function Dashboard() {
                       {/* Matching Interests Tag */}
                       {matchesInterests && (
                         <div className="mb-2">
-                          <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
+                          <span className="inline-flex items-center gap-1 text-2xs font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
                             ⭐ Matches Your Interests
                           </span>
                         </div>
@@ -360,15 +360,15 @@ export default function Dashboard() {
                           {survey.title}
                         </h3>
                         {isApproved ? (
-                          <span className="shrink-0 text-[11px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          <span className="shrink-0 text-2xs font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
                             ✓ Eligible
                           </span>
                         ) : isWaitlisted ? (
-                          <span className="shrink-0 text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
+                          <span className="shrink-0 text-2xs font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
                             ⏳ Waitlist
                           </span>
                         ) : (
-                          <span className="shrink-0 text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 border border-slate-200">
+                          <span className="shrink-0 text-2xs font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 border border-slate-200">
                             Ineligible
                           </span>
                         )}
@@ -382,19 +382,19 @@ export default function Dashboard() {
                       )}
 
                       {/* Meta Chips */}
-                      <div className="grid grid-cols-3 gap-2 py-2 px-3 bg-slate-50 rounded-xl border border-slate-100 text-[11px] text-slate-600 mb-3 tabular-nums">
+                      <div className="grid grid-cols-3 gap-2 py-2 px-3 bg-slate-50 rounded-xl border border-slate-100 text-xs text-slate-600 mb-3 tabular-nums">
                         <div>
-                          <span className="text-[10px] text-slate-400 block uppercase font-medium">Reward</span>
+                          <span className="tracking-label text-slate-400 block">Reward</span>
                           <strong className="text-slate-900 font-bold text-xs">₹{survey.reward_amount}</strong>
                         </div>
                         <div>
-                          <span className="text-[10px] text-slate-400 block uppercase font-medium">Quota</span>
+                          <span className="tracking-label text-slate-400 block">Quota</span>
                           <span className="font-semibold text-slate-800">
                             {survey.filled}/{survey.quota}
                           </span>
                         </div>
                         <div>
-                          <span className="text-[10px] text-slate-400 block uppercase font-medium">Deadline</span>
+                          <span className="tracking-label text-slate-400 block">Deadline</span>
                           <span className="font-semibold text-slate-800">
                             {new Date(survey.deadline).toLocaleDateString("en-IN", {
                               month: "short",
@@ -478,7 +478,7 @@ export default function Dashboard() {
                               <span>Join Waitlist (Flexible Screen) →</span>
                             )}
                           </button>
-                          <p className="text-[10px] text-slate-400 text-center mt-1">
+                          <p className="text-2xs text-slate-400 text-center mt-1">
                             Researchers manually admit waitlisted respondents as slots open.
                           </p>
                         </div>
@@ -494,3 +494,5 @@ export default function Dashboard() {
     </div>
   );
 }
+
+

@@ -158,7 +158,7 @@ export default function AdminRespondents() {
                 <span className="font-bold text-slate-900 text-sm tracking-tight block">
                   ViewBox Console
                 </span>
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 block -mt-0.5">
+                <span className="text-2xs font-semibold uppercase tracking-wider text-slate-400 block -mt-0.5">
                   Panel Operations
                 </span>
               </div>
@@ -298,7 +298,7 @@ export default function AdminRespondents() {
                     <span className="font-semibold text-emerald-900 block mb-1">
                       Sanitized Data ({importResult.fixed.length}):
                     </span>
-                    <div className="max-h-28 overflow-y-auto space-y-1 font-mono text-[11px] bg-white/80 p-2 rounded-lg border border-emerald-100">
+                    <div className="max-h-28 overflow-y-auto space-y-1 font-mono text-2xs bg-white/80 p-2 rounded-lg border border-emerald-100">
                       {importResult.fixed.map((fix, idx) => (
                         <div key={idx} className="text-emerald-950">
                           Row {fix.row}: {fix.field} "{fix.original}" → <strong>"{fix.fixed}"</strong>
@@ -313,7 +313,7 @@ export default function AdminRespondents() {
                     <span className="font-semibold text-rose-800 block mb-1">
                       Skipped Rows ({importResult.errors.length}):
                     </span>
-                    <div className="max-h-28 overflow-y-auto space-y-1 font-mono text-[11px] bg-rose-50/80 p-2 rounded-lg border border-rose-200">
+                    <div className="max-h-28 overflow-y-auto space-y-1 font-mono text-2xs bg-rose-50/80 p-2 rounded-lg border border-rose-200">
                       {importResult.errors.map((err, idx) => (
                         <div key={idx} className="text-rose-900">
                           Row {err.row} ({err.phone}): {err.reason}
@@ -411,7 +411,7 @@ export default function AdminRespondents() {
         <div className="bg-white rounded-xl border border-slate-200 shadow-2xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold uppercase tracking-wider text-[11px]">
+              <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold uppercase tracking-wider text-2xs">
                 <tr>
                   <th className="py-3 px-4">ID</th>
                   <th className="py-3 px-4">Respondent</th>
@@ -446,7 +446,7 @@ export default function AdminRespondents() {
                         }`}
                       >
                         {/* ID */}
-                        <td className="py-3 px-4 font-mono font-medium text-slate-500 text-[11px]">
+                        <td className="py-3 px-4 font-mono font-medium text-slate-500 text-2xs">
                           #{r.id}
                         </td>
 
@@ -455,11 +455,11 @@ export default function AdminRespondents() {
                           <div className="font-bold text-slate-900 text-xs">
                             {r.name || "Anonymous"}
                           </div>
-                          <div className="font-mono text-[11px] text-slate-500 tabular-nums">
+                          <div className="font-mono text-2xs text-slate-500 tabular-nums">
                             +91 {r.phone}
                           </div>
                           {r.referral_code && (
-                            <span className="text-[10px] text-blue-600 font-mono font-medium">
+                            <span className="text-2xs text-blue-600 font-mono font-medium">
                               Ref: {r.referral_code}
                             </span>
                           )}
@@ -468,7 +468,7 @@ export default function AdminRespondents() {
                         {/* Demographics */}
                         <td className="py-3 px-4">
                           <div className="font-medium text-slate-900">{r.city}</div>
-                          <div className="text-[11px] text-slate-500">
+                          <div className="text-2xs text-slate-500">
                             {r.gender || "—"} • {r.dob ? `Born ${r.dob}` : "DOB N/A"}
                           </div>
                         </td>
@@ -479,7 +479,7 @@ export default function AdminRespondents() {
                             {r.income_range || "—"}
                           </div>
                           {r.interests && (
-                            <div className="text-[11px] text-slate-500 truncate" title={r.interests}>
+                            <div className="text-2xs text-slate-500 truncate" title={r.interests}>
                               {r.interests}
                             </div>
                           )}
@@ -487,7 +487,7 @@ export default function AdminRespondents() {
 
                         {/* Source */}
                         <td className="py-3 px-4">
-                          <span className="inline-block text-[11px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
+                          <span className="inline-block text-2xs font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
                             {r.source || "Direct / Unknown"}
                           </span>
                         </td>
@@ -496,26 +496,26 @@ export default function AdminRespondents() {
                         <td className="py-3 px-4">
                           {r.in_cool_off ? (
                             <div>
-                              <span className="inline-block text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-300">
+                              <span className="inline-block text-2xs font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-300">
                                 ⏳ In Cool-Off
                               </span>
-                              <div className="text-[10px] text-amber-700 mt-0.5 font-medium tabular-nums">
+                              <div className="text-2xs text-amber-700 mt-0.5 font-medium tabular-nums">
                                 Free on {r.cool_off_until}
                               </div>
                             </div>
                           ) : r.status === "Active" ? (
-                            <span className="inline-block text-[11px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span className="inline-block text-2xs font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
                               ✓ Active
                             </span>
                           ) : (
-                            <span className="inline-block text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200">
+                            <span className="inline-block text-2xs font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200">
                               {r.status}
                             </span>
                           )}
                         </td>
 
                         {/* Joined At */}
-                        <td className="py-3 px-4 text-[11px] text-slate-500 tabular-nums whitespace-nowrap">
+                        <td className="py-3 px-4 text-2xs text-slate-500 tabular-nums whitespace-nowrap">
                           {r.created_at}
                         </td>
                       </tr>
@@ -530,3 +530,5 @@ export default function AdminRespondents() {
     </div>
   );
 }
+
+

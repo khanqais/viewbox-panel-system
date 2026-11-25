@@ -72,7 +72,7 @@ export default function AdminSources() {
     };
     const style = types[type] || types.other;
     return (
-      <span className={`inline-block text-[11px] font-semibold uppercase px-2 py-0.5 rounded-md border ${style}`}>
+      <span className={`inline-block text-2xs font-semibold uppercase px-2 py-0.5 rounded-md border ${style}`}>
         {type}
       </span>
     );
@@ -92,7 +92,7 @@ export default function AdminSources() {
                 <span className="font-bold text-slate-900 text-sm tracking-tight block">
                   ViewBox Console
                 </span>
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 block -mt-0.5">
+                <span className="text-2xs font-semibold uppercase tracking-wider text-slate-400 block -mt-0.5">
                   Panel Operations
                 </span>
               </div>
@@ -193,7 +193,7 @@ export default function AdminSources() {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                <label className="block tracking-label text-slate-700 mb-1.5">
                   Channel / Group Name *
                 </label>
                 <input
@@ -207,7 +207,7 @@ export default function AdminSources() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                <label className="block tracking-label text-slate-700 mb-1.5">
                   Channel Type *
                 </label>
                 <select
@@ -225,7 +225,7 @@ export default function AdminSources() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                <label className="block tracking-label text-slate-700 mb-1.5">
                   URL Slug Token *
                 </label>
                 <input
@@ -267,53 +267,53 @@ export default function AdminSources() {
         {dashboard && (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             <div className="p-4 rounded-xl border border-slate-200 bg-white shadow-2xs">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block mb-1">
+              <span className="text-2xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">
                 Active Sources
               </span>
               <div className="text-2xl font-bold text-slate-900 tabular-nums">
                 {dashboard.summary?.total_sources || 0}
               </div>
-              <span className="text-[11px] text-slate-500">Channels monitored</span>
+              <span className="text-2xs text-slate-500">Channels monitored</span>
             </div>
 
             <div className="p-4 rounded-xl border border-slate-200 bg-white shadow-2xs">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block mb-1">
+              <span className="text-2xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">
                 Total Sign-ups
               </span>
               <div className="text-2xl font-bold text-slate-900 tabular-nums">
                 {dashboard.summary?.total_signups || 0}
               </div>
-              <span className="text-[11px] text-slate-500">Top-of-funnel reach</span>
+              <span className="text-2xs text-slate-500">Top-of-funnel reach</span>
             </div>
 
             <div className="p-4 rounded-xl border border-blue-200 bg-blue-50/40 shadow-2xs">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-blue-900 block mb-1">
+              <span className="text-2xs font-semibold uppercase tracking-wider text-blue-900 block mb-1">
                 Fit Members
               </span>
               <div className="text-2xl font-bold text-blue-700 tabular-nums">
                 {dashboard.summary?.total_fit || 0}
               </div>
-              <span className="text-[11px] text-blue-800">Completed profile & eligible</span>
+              <span className="text-2xs text-blue-800">Completed profile & eligible</span>
             </div>
 
             <div className="p-4 rounded-xl border border-emerald-200 bg-emerald-50/40 shadow-2xs">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-900 block mb-1">
+              <span className="text-2xs font-semibold uppercase tracking-wider text-emerald-900 block mb-1">
                 Completed Studies
               </span>
               <div className="text-2xl font-bold text-emerald-700 tabular-nums">
                 {dashboard.summary?.total_completed || 0}
               </div>
-              <span className="text-[11px] text-emerald-800">High-intent responses</span>
+              <span className="text-2xs text-emerald-800">High-intent responses</span>
             </div>
 
             <div className="p-4 rounded-xl border border-slate-900 bg-slate-900 text-white shadow-2xs col-span-2 sm:col-span-1">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block mb-1">
+              <span className="text-2xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">
                 Overall Conversion
               </span>
               <div className="text-2xl font-bold text-white tabular-nums">
                 {dashboard.summary?.overall_conversion || "0%"}
               </div>
-              <span className="text-[11px] text-slate-300">Sign-ups to Completed</span>
+              <span className="text-2xs text-slate-300">Sign-ups to Completed</span>
             </div>
           </div>
         )}
@@ -331,7 +331,7 @@ export default function AdminSources() {
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold uppercase tracking-wider text-[11px]">
+              <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold uppercase tracking-wider text-2xs">
                 <tr>
                   <th className="py-3 px-4">Channel Name</th>
                   <th className="py-3 px-4">Type</th>
@@ -370,7 +370,7 @@ export default function AdminSources() {
                           {getTypeBadge(src.type)}
                         </td>
 
-                        <td className="py-3.5 px-4 font-mono text-[11px] text-slate-500">
+                        <td className="py-3.5 px-4 font-mono text-2xs text-slate-500">
                           ?source={src.slug}
                         </td>
 
@@ -417,3 +417,5 @@ export default function AdminSources() {
     </div>
   );
 }
+
+

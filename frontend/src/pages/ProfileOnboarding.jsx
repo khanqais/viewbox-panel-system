@@ -201,7 +201,7 @@ export default function ProfileOnboarding() {
                 </div>
                 <div className="text-xs">
                   <span className="font-semibold text-slate-900 block">Mobile Verified</span>
-                  <span className="text-slate-400 text-[11px]">Secure OTP completed</span>
+                  <span className="text-slate-400 text-2xs">Secure OTP completed</span>
                 </div>
               </div>
 
@@ -211,7 +211,7 @@ export default function ProfileOnboarding() {
                 </div>
                 <div className="text-xs">
                   <span className="font-bold text-slate-900 block">Demographic Matching</span>
-                  <span className="text-blue-600 text-[11px] font-medium">In Progress</span>
+                  <span className="text-blue-600 text-2xs font-medium">In Progress</span>
                 </div>
               </div>
             </div>
@@ -223,7 +223,7 @@ export default function ProfileOnboarding() {
               <div className="flex items-center gap-2 font-bold mb-1">
                 <span>🎁</span> Referral Bonus Linked
               </div>
-              <p className="text-[11px] text-emerald-800 leading-relaxed">
+              <p className="text-2xs text-emerald-800 leading-relaxed">
                 Invited with code <strong className="font-mono">{pendingRef}</strong>. Both you and your inviter receive cash rewards on study completion.
               </p>
             </div>
@@ -234,7 +234,7 @@ export default function ProfileOnboarding() {
               <div className="flex items-center gap-2 font-bold mb-1">
                 <span>📍</span> Campaign Attribution
               </div>
-              <p className="text-[11px] text-blue-800 leading-relaxed">
+              <p className="text-2xs text-blue-800 leading-relaxed">
                 Source channel tagged: <strong>{pendingSource}</strong>
               </p>
             </div>
@@ -245,10 +245,10 @@ export default function ProfileOnboarding() {
             <h3 className="font-bold text-slate-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
               <span>🎯</span> Why Accuracy Matters
             </h3>
-            <p className="text-[11px] text-slate-500 leading-relaxed">
+            <p className="text-2xs text-slate-500 leading-relaxed">
               Consumer brands and research institutions screen respondents against strict demographic criteria (City, SEC income, Age).
             </p>
-            <p className="text-[11px] text-slate-500 leading-relaxed">
+            <p className="text-2xs text-slate-500 leading-relaxed">
               Accurate details ensure you match directly to eligible surveys without getting screened out mid-way.
             </p>
           </div>
@@ -276,7 +276,7 @@ export default function ProfileOnboarding() {
             <div>
               <label
                 htmlFor="name"
-                className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5"
+                className="block tracking-label text-slate-700 mb-1.5"
               >
                 Full Name <span className="text-rose-500">*</span>
               </label>
@@ -295,7 +295,7 @@ export default function ProfileOnboarding() {
               <div>
                 <label
                   htmlFor="dob"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5"
+                  className="block tracking-label text-slate-700 mb-1.5"
                 >
                   Date of Birth <span className="text-rose-500">*</span>
                 </label>
@@ -312,7 +312,7 @@ export default function ProfileOnboarding() {
               <div>
                 <label
                   htmlFor="gender"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5"
+                  className="block tracking-label text-slate-700 mb-1.5"
                 >
                   Gender <span className="text-rose-500">*</span>
                 </label>
@@ -336,7 +336,7 @@ export default function ProfileOnboarding() {
               <div>
                 <label
                   htmlFor="city"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5"
+                  className="block tracking-label text-slate-700 mb-1.5"
                 >
                   City of Residence <span className="text-rose-500">*</span>
                 </label>
@@ -358,7 +358,7 @@ export default function ProfileOnboarding() {
               <div>
                 <label
                   htmlFor="income"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5"
+                  className="block tracking-label text-slate-700 mb-1.5"
                 >
                   Annual Household Income <span className="text-rose-500">*</span>
                 </label>
@@ -381,7 +381,7 @@ export default function ProfileOnboarding() {
             {/* Interests & Categories */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-700">
+                <label className="tracking-label text-slate-700">
                   Topic & Category Interests <span className="text-rose-500">*</span>
                 </label>
                 <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">
@@ -420,7 +420,7 @@ export default function ProfileOnboarding() {
               <div className="pt-3 border-t border-slate-100">
                 <label
                   htmlFor="fallback-source"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5"
+                  className="block tracking-label text-slate-600 mb-1.5"
                 >
                   How did you discover ViewBox?
                 </label>
@@ -466,3 +466,5 @@ export default function ProfileOnboarding() {
     </div>
   );
 }
+
+

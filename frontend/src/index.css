@@ -2,7 +2,39 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Global square grid background */
+/* ─── Typography tokens ────────────────────────────────────────────────────── */
+:root {
+  /* Inter — primary UI sans-serif */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  /* JetBrains Mono — OTPs, referral codes, phone numbers, IDs, data values */
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", "Fira Code",
+    Menlo, monospace;
+
+  /* Type scale (aligned to a 1.25 minor-third ratio) */
+  --text-2xs: 0.6875rem;   /* 11px — smallest labels, fine print */
+  --text-xs:  0.75rem;     /* 12px — metadata, badges, captions */
+  --text-sm:  0.875rem;    /* 14px — secondary body, form labels */
+  --text-base: 1rem;       /* 16px — primary body */
+  --text-lg:  1.125rem;    /* 18px — card headings */
+  --text-xl:  1.25rem;     /* 20px — section headings */
+  --text-2xl: 1.5rem;      /* 24px — page headings */
+  --text-3xl: 1.875rem;    /* 30px — auth hero heading */
+
+  /* Line heights */
+  --leading-tight:   1.2;
+  --leading-snug:    1.35;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+
+  /* Letter spacing */
+  --tracking-tight:  -0.02em;
+  --tracking-normal:  0em;
+  --tracking-wide:    0.04em;
+  --tracking-widest:  0.1em;
+}
+
+/* ─── Global grid background ────────────────────────────────────────────────── */
 html {
   background-color: #f8fafc;
   background-image:
@@ -23,12 +55,16 @@ html.dark {
   color-scheme: dark;
 }
 
+/* ─── Base reset ─────────────────────────────────────────────────────────────── */
 body {
   margin: 0;
   padding: 0;
   background: transparent !important;
   color: #0f172a;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);       /* 14px — compact SaaS dashboard default */
+  line-height: var(--leading-normal);
+  font-weight: 400;
 }
 
 html.dark body {
@@ -43,9 +79,58 @@ html.dark body {
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    /* Inter OpenType features: contextual alternates, disambiguates l/I/1 */
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "calt" 1, "liga" 1;
+    font-optical-sizing: auto;
+  }
+
+  /* Headings: tight tracking, strong weight */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  /* Monospace elements: JetBrains Mono everywhere */
+  code, kbd, pre, samp,
+  .font-mono, [class*="font-mono"],
+  input[type="tel"], input[type="number"] {
+    font-family: var(--font-mono);
+    font-feature-settings: "calt" 1, "liga" 1, "zero" 1;
   }
 }
+
+/* ─── Typography utility classes ─────────────────────────────────────────────── */
+
+/* 11px label — use for smallest metadata, category chips */
+.text-2xs {
+  font-size: var(--text-2xs);
+  line-height: 1.4;
+}
+
+/* Tabular nums for stats, counts, currencies, deadlines */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Oversize label tracking — section eyebrows */
+.tracking-label {
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: var(--text-2xs);
+}
+
+/* Monospace OTP/code display — large centered digits */
+.otp-input {
+  font-family: var(--font-mono);
+  letter-spacing: 0.5em;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+/* ─── Dark mode overrides ───────────────────────────────────────────────────── */
 
 /* Card surfaces, badges, inputs and tables dark support */
 .dark .bg-white {
@@ -92,11 +177,6 @@ html.dark body {
   background-color: #0f172a;
   color: #f8fafc;
   border-color: #334155;
-}
-
-/* Tabular nums for stats, counts, currencies, deadlines */
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
 }
 
 .dark input::placeholder,

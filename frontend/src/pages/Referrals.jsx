@@ -70,26 +70,26 @@ export default function Referrals() {
     switch (stage) {
       case "completed":
         return (
-          <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-300">
+          <span className="text-2xs font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-300">
             🎉 Completed (Bonus Earned)
           </span>
         );
       case "fit":
         return (
-          <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-blue-800 border border-blue-200">
+          <span className="text-2xs font-bold px-2 py-0.5 rounded-md bg-blue-50 text-blue-800 border border-blue-200">
             ✓ Fit Verified
           </span>
         );
       case "failed":
         return (
-          <span className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 border border-slate-200">
+          <span className="text-2xs font-medium px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 border border-slate-200">
             ✗ Ineligible
           </span>
         );
       case "lead":
       default:
         return (
-          <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
+          <span className="text-2xs font-semibold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
             ⏳ Registered (Lead)
           </span>
         );
@@ -144,52 +144,52 @@ export default function Referrals() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Total Contacts */}
         <div className="p-4 sm:p-5 rounded-2xl border border-slate-200 bg-white shadow-2xs text-left">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block mb-1">
+          <span className="text-2xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">
             Total Referrals
           </span>
           <div className="text-2xl sm:text-3xl font-bold text-slate-900 tabular-nums">
             {stats?.total_referrals || 0}
           </div>
-          <span className="text-[11px] text-slate-500 mt-1 block">
+          <span className="text-2xs text-slate-500 mt-1 block">
             Contacts joined via link
           </span>
         </div>
 
         {/* Fit Stage */}
         <div className="p-4 sm:p-5 rounded-2xl border border-blue-200 bg-blue-50/50 shadow-2xs text-left">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-blue-900 block mb-1">
+          <span className="text-2xs font-semibold uppercase tracking-wider text-blue-900 block mb-1">
             Fit Members
           </span>
           <div className="text-2xl sm:text-3xl font-bold text-blue-700 tabular-nums">
             {summary?.fit || 0}
           </div>
-          <span className="text-[11px] text-blue-800 mt-1 block">
+          <span className="text-2xs text-blue-800 mt-1 block">
             Profile completed & verified
           </span>
         </div>
 
         {/* Completed Stage */}
         <div className="p-4 sm:p-5 rounded-2xl border border-emerald-200 bg-emerald-50/60 shadow-2xs text-left">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-900 block mb-1">
+          <span className="text-2xs font-semibold uppercase tracking-wider text-emerald-900 block mb-1">
             Completed Studies
           </span>
           <div className="text-2xl sm:text-3xl font-bold text-emerald-700 tabular-nums">
             {summary?.completed || 0}
           </div>
-          <span className="text-[11px] text-emerald-800 mt-1 block">
+          <span className="text-2xs text-emerald-800 mt-1 block">
             Bonus eligible finishes
           </span>
         </div>
 
         {/* Potential / Total Bonus */}
         <div className="p-4 sm:p-5 rounded-2xl border border-slate-900 bg-slate-900 text-white shadow-xs text-left">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 block mb-1">
+          <span className="text-2xs font-semibold uppercase tracking-wider text-slate-400 block mb-1">
             Total Potential Bonus
           </span>
           <div className="text-2xl sm:text-3xl font-bold text-white tabular-nums">
             ₹{stats?.potential_earnings || 0}
           </div>
-          <span className="text-[11px] text-slate-300 mt-1 block">
+          <span className="text-2xs text-slate-300 mt-1 block">
             ₹100 per verified finish
           </span>
         </div>
@@ -249,7 +249,7 @@ export default function Referrals() {
                 <span className="text-base">1️⃣</span>
                 <div>
                   <strong className="text-slate-900 block font-semibold">Lead</strong>
-                  <span className="text-slate-500 text-[11px]">User registered phone number via your link.</span>
+                  <span className="text-slate-500 text-2xs">User registered phone number via your link.</span>
                 </div>
               </div>
 
@@ -257,7 +257,7 @@ export default function Referrals() {
                 <span className="text-base">2️⃣</span>
                 <div>
                   <strong className="text-blue-900 block font-semibold">Fit (Verified Profile)</strong>
-                  <span className="text-blue-800 text-[11px]">Completed demographics & screening criteria.</span>
+                  <span className="text-blue-800 text-2xs">Completed demographics & screening criteria.</span>
                 </div>
               </div>
 
@@ -265,14 +265,14 @@ export default function Referrals() {
                 <span className="text-base">3️⃣</span>
                 <div>
                   <strong className="text-emerald-900 block font-semibold">Completed (₹100 Paid)</strong>
-                  <span className="text-emerald-800 text-[11px]">Completed first verified study. Bonus unlocked!</span>
+                  <span className="text-emerald-800 text-2xs">Completed first verified study. Bonus unlocked!</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Privacy Box */}
-          <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50 text-[11px] text-slate-500 leading-relaxed">
+          <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50 text-2xs text-slate-500 leading-relaxed">
             <strong className="text-slate-700 block mb-1">🔒 Privacy Compliant (DPDP Act):</strong>
             All contact telephone numbers are masked as <code className="font-mono text-slate-700">98******10</code> to protect individual privacy while enabling reward tracking.
           </div>
@@ -330,7 +330,7 @@ export default function Referrals() {
             <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold uppercase tracking-wider text-[11px]">
+                  <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold uppercase tracking-wider text-2xs">
                     <tr>
                       <th className="py-3 px-4">Contact</th>
                       <th className="py-3 px-4">Masked Phone</th>
@@ -345,7 +345,7 @@ export default function Referrals() {
                         <td className="py-3.5 px-4 font-bold text-slate-900">
                           {ref.name || "Anonymous Member"}
                         </td>
-                        <td className="py-3.5 px-4 font-mono text-[11px] text-slate-600 tabular-nums">
+                        <td className="py-3.5 px-4 font-mono text-2xs text-slate-600 tabular-nums">
                           {ref.phone}
                         </td>
                         <td className="py-3.5 px-4">
@@ -360,7 +360,7 @@ export default function Referrals() {
                             <span className="text-slate-400 font-normal">Pending</span>
                           )}
                         </td>
-                        <td className="py-3.5 px-4 text-right text-slate-500 text-[11px] tabular-nums whitespace-nowrap">
+                        <td className="py-3.5 px-4 text-right text-slate-500 text-2xs tabular-nums whitespace-nowrap">
                           {ref.created_at
                             ? new Date(ref.created_at).toLocaleDateString("en-IN", {
                                 month: "short",
@@ -380,3 +380,4 @@ export default function Referrals() {
     </div>
   );
 }
+

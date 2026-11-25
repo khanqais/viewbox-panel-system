@@ -65,7 +65,7 @@ function MemberShell({ children }) {
                   <span className="font-bold text-slate-900 dark:text-white text-sm tracking-tight block">
                     ViewBox Panel
                   </span>
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-400 block -mt-0.5">
+                  <span className="tracking-label text-slate-400 dark:text-slate-400 block -mt-0.5">
                     Research Community
                   </span>
                 </div>
@@ -103,7 +103,7 @@ function MemberShell({ children }) {
                   className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer border border-slate-700/60"
                 >
                   <span>Operations Console</span>
-                  <span className="text-[10px] text-slate-400">→</span>
+                  <span className="text-2xs text-slate-400">→</span>
                 </Link>
               )}
 
@@ -139,7 +139,7 @@ function MemberShell({ children }) {
                 }`}
               >
                 <span className="text-sm">{item.icon}</span>
-                <span className="text-[11px] truncate">{item.label}</span>
+                <span className="text-xs truncate">{item.label}</span>
               </Link>
             );
           })}
@@ -149,7 +149,7 @@ function MemberShell({ children }) {
               className="flex-1 py-1.5 px-2 text-center text-xs font-semibold rounded-lg transition-colors flex flex-col items-center gap-0.5 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800"
             >
               <span className="text-sm">⚙️</span>
-              <span className="text-[11px] truncate">Admin</span>
+              <span className="text-xs truncate">Admin</span>
             </Link>
           )}
         </div>
@@ -271,3 +271,4 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
