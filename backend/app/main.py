@@ -42,5 +42,6 @@ app.include_router(meta_leads.router)
 
 @app.get("/")
 @app.get("/health")
+@app.get("/api/health")
 def health_check():
     return {"status": "ok", "app": "ViewBox Panel System"}

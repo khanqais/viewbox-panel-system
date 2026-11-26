@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" width="100%" height="100%" style="background:#f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.06"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1600" height="75" fill="#0f172a"/>
+  <text x="40" y="46" font-size="24" font-weight="700" fill="#ffffff">ViewBox Panel System — Day 2 End-to-End User Flow</text>
+  <text x="1260" y="46" font-size="14" fill="#94a3b8">Concave Insights Technical Assessment</text>
+
+  <!-- Section 1 -->
+  <text x="40" y="115" font-size="16" font-weight="700" fill="#2563eb">1. ACQUISITION &amp; SOURCE ATTRIBUTION</text>
+
+  <!-- Box 1: Sources -->
+  <rect x="40" y="135" width="240" height="120" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="2" filter="url(#shadow)"/>
+  <text x="56" y="165" font-size="14" font-weight="700" fill="#1e3a8a">Marketing Channels</text>
+  <text x="56" y="190" font-size="12" fill="#475569">• 50+ WhatsApp Groups</text>
+  <text x="56" y="210" font-size="12" fill="#475569">• Instagram / FB Posts</text>
+  <text x="56" y="230" font-size="12" fill="#475569">• Website Direct / Meta Ads</text>
+
+  <line x1="280" y1="195" x2="330" y2="195" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Box 2: Attribution Resolver -->
+  <rect x="330" y="135" width="260" height="120" rx="10" fill="#faf5ff" stroke="#e9d5ff" stroke-width="2" filter="url(#shadow)"/>
+  <text x="346" y="165" font-size="14" font-weight="700" fill="#581c87">Attribution Resolver</text>
+  <text x="346" y="190" font-size="12" fill="#475569">• ?ref=VB... -> Member Referral</text>
+  <text x="346" y="210" font-size="12" fill="#475569">• ?source=... -> Dynamic Source</text>
+  <text x="346" y="230" font-size="12" fill="#475569">• Rule: Referral &gt; Source Tag</text>
+
+  <line x1="590" y1="195" x2="640" y2="195" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Box 3: Authentication -->
+  <rect x="640" y="135" width="250" height="120" rx="10" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="2" filter="url(#shadow)"/>
+  <text x="656" y="165" font-size="14" font-weight="700" fill="#14532d">Authentication</text>
+  <text x="656" y="190" font-size="12" fill="#475569">• Phone (10 digits) + OTP</text>
+  <text x="656" y="210" font-size="12" fill="#475569">• Mock OTP on-screen</text>
+  <text x="656" y="230" font-size="12" fill="#475569">• Issues JWT Access Token</text>
+
+  <line x1="890" y1="195" x2="940" y2="195" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Box 4: Profile Onboarding -->
+  <rect x="940" y="135" width="280" height="120" rx="10" fill="#fffbeb" stroke="#fde68a" stroke-width="2" filter="url(#shadow)"/>
+  <text x="956" y="165" font-size="14" font-weight="700" fill="#78350f">Profile Onboarding (Step 2)</text>
+  <text x="956" y="190" font-size="12" fill="#475569">• Name, DOB, Gender, City</text>
+  <text x="956" y="210" font-size="12" fill="#475569">• Income Range &amp; Interests</text>
+  <text x="956" y="230" font-size="12" fill="#475569">• Fallback "How did you hear?"</text>
+
+  <line x1="1080" y1="255" x2="1080" y2="305" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Section 2 -->
+  <text x="40" y="295" font-size="16" font-weight="700" fill="#059669">2. RESPONDENT PORTAL &amp; ELIGIBILITY SCREENING</text>
+
+  <!-- Box 5: Live Surveys -->
+  <rect x="40" y="315" width="370" height="190" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow)"/>
+  <text x="56" y="345" font-size="14" font-weight="700" fill="#0f172a">Live Surveys Feed (/dashboard)</text>
+  <text x="56" y="375" font-size="12" fill="#475569">• Pre-screens all active studies</text>
+  <text x="56" y="398" font-size="12" fill="#475569">• ⭐ Highlighted if matches member interests</text>
+  <text x="56" y="421" font-size="12" fill="#475569">• Real-time Quota progress bar</text>
+  <text x="56" y="444" font-size="12" fill="#475569">• Reward amount (₹) &amp; 15-day deadline</text>
+  <text x="56" y="467" font-size="12" fill="#475569">• Filter tabs: All / Eligible / Waitlist</text>
+
+  <line x1="410" y1="410" x2="460" y2="410" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Box 6: Eligibility Engine -->
+  <rect x="460" y="315" width="410" height="190" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="2" filter="url(#shadow)"/>
+  <text x="476" y="345" font-size="14" font-weight="700" fill="#0f172a">Eligibility Engine (backend/services)</text>
+  <text x="476" y="375" font-size="12" font-weight="600" fill="#b91c1c">1. 3-Month Cool-off Rule (Strict)</text>
+  <text x="490" y="395" font-size="11" fill="#475569">Blocks joining if survey completed in last 90 days</text>
+  <text x="476" y="420" font-size="12" font-weight="600" fill="#d97706">2. Quota &amp; 15-Day Project Deadline</text>
+  <text x="490" y="440" font-size="11" fill="#475569">Blocks if quota full or deadline passed</text>
+  <text x="476" y="465" font-size="12" font-weight="600" fill="#2563eb">3. Demographic Rules (Strict vs Flexible)</text>
+  <text x="490" y="485" font-size="11" fill="#475569">Strict fail = Rejected; Flexible fail = Waitlisted</text>
+
+  <line x1="870" y1="410" x2="920" y2="410" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Box 7: Participation Results -->
+  <rect x="920" y="315" width="310" height="190" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="2" filter="url(#shadow)"/>
+  <text x="936" y="345" font-size="14" font-weight="700" fill="#14532d">Eligibility Verdicts</text>
+  <text x="936" y="375" font-size="12" fill="#15803d">✓ Approved: 1-Click Join Enabled</text>
+  <text x="936" y="405" font-size="12" fill="#b45309">⏳ Waitlisted: Flexible rule failed</text>
+  <text x="950" y="425" font-size="11" fill="#475569">Shows explanation &amp; researcher queue</text>
+  <text x="936" y="455" font-size="12" fill="#b91c1c">✗ Rejected: Strict rule / cool-off</text>
+  <text x="950" y="475" font-size="11" fill="#475569">Exact plain-English reason + return date</text>
+
+  <!-- Section 3 -->
+  <text x="40" y="550" font-size="16" font-weight="700" fill="#7c3aed">3. REFERRAL LIFECYCLE (3-STAGE PROTOCOL)</text>
+
+  <!-- Box 8: Lead -->
+  <rect x="40" y="570" width="350" height="180" rx="10" fill="#fffbeb" stroke="#fde68a" stroke-width="2" filter="url(#shadow)"/>
+  <text x="56" y="600" font-size="14" font-weight="700" fill="#78350f">Stage 1: The Lead</text>
+  <text x="56" y="630" font-size="12" fill="#475569">• Member A shares personal link (/login?ref=VB...)</text>
+  <text x="56" y="655" font-size="12" fill="#475569">• Friend B registers phone number</text>
+  <text x="56" y="680" font-size="12" fill="#475569">• Referral row created with stage='lead'</text>
+  <text x="56" y="705" font-size="12" fill="#475569">• Referrer sees masked phone: 98******10</text>
+  <text x="56" y="730" font-size="12" fill="#b45309">⏳ Status: "Registered (Lead)"</text>
+
+  <line x1="390" y1="660" x2="440" y2="660" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Box 9: Fit -->
+  <rect x="440" y="570" width="350" height="180" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="2" filter="url(#shadow)"/>
+  <text x="456" y="600" font-size="14" font-weight="700" fill="#1e3a8a">Stage 2: The Fit</text>
+  <text x="456" y="630" font-size="12" fill="#475569">• Friend B completes demographic onboarding</text>
+  <text x="456" y="655" font-size="12" fill="#475569">• Ops checks demographics match target audience</text>
+  <text x="456" y="680" font-size="12" fill="#475569">• Matches -> Ops marks stage='fit'</text>
+  <text x="456" y="705" font-size="12" fill="#475569">• Doesn't fit -> Marked 'failed' with reason</text>
+  <text x="456" y="730" font-size="12" fill="#1d4ed8">✓ Status: "Fit Verified"</text>
+
+  <line x1="790" y1="660" x2="840" y2="660" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Box 10: Completed -->
+  <rect x="840" y="570" width="390" height="180" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="2" filter="url(#shadow)"/>
+  <text x="856" y="600" font-size="14" font-weight="700" fill="#14532d">Stage 3: Completion &amp; Payout</text>
+  <text x="856" y="630" font-size="12" fill="#475569">• Friend B takes &amp; completes survey in 15 days</text>
+  <text x="856" y="655" font-size="12" fill="#475569">• Ops quality check passed -> stage='completed'</text>
+  <text x="856" y="680" font-size="12" fill="#475569">• Member A earns ₹100 referral bonus!</text>
+  <text x="856" y="705" font-size="12" fill="#475569">• Failed QC? -> stage='failed' with fail_reason</text>
+  <text x="856" y="730" font-size="12" fill="#15803d">🎉 Status: "Completed (Bonus Earned)"</text>
+
+  <!-- Section 4 -->
+  <text x="40" y="795" font-size="16" font-weight="700" fill="#e11d48">4. ADMIN &amp; OPERATIONS CONSOLE (/admin/*)</text>
+
+  <rect x="40" y="815" width="350" height="195" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow)"/>
+  <text x="56" y="845" font-size="14" font-weight="700" fill="#0f172a">Respondent Database Grid</text>
+  <text x="56" y="875" font-size="12" fill="#475569">• Search as you type (Name, Phone, City, ID)</text>
+  <text x="56" y="900" font-size="12" fill="#475569">• Multi-filters: Source, City, Panel Status</text>
+  <text x="56" y="925" font-size="12" fill="#475569">• Live Cool-off badges &amp; return dates</text>
+  <text x="56" y="950" font-size="12" fill="#475569">• 1-Click Export CSV matching active filters</text>
+
+  <rect x="420" y="815" width="370" height="195" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow)"/>
+  <text x="436" y="845" font-size="14" font-weight="700" fill="#0f172a">Resilient CSV Importer</text>
+  <text x="436" y="875" font-size="12" fill="#475569">• Ingests viewbox_respondents_sample.csv</text>
+  <text x="436" y="900" font-size="12" fill="#475569">• Sanitizes phone (+91, leading 0, whitespace)</text>
+  <text x="436" y="925" font-size="12" fill="#475569">• Tolerates 6 date formats &amp; multiple encodings</text>
+  <text x="436" y="950" font-size="12" fill="#475569">• Never crashes: skips duplicates, logs fixes</text>
+  <text x="436" y="975" font-size="12" fill="#475569">• Displays audit modal with row-by-row logs</text>
+
+  <rect x="820" y="815" width="360" height="195" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow)"/>
+  <text x="836" y="845" font-size="14" font-weight="700" fill="#0f172a">Source Attribution Funnel</text>
+  <text x="836" y="875" font-size="12" fill="#475569">• Dynamic source management (CRUD)</text>
+  <text x="836" y="900" font-size="12" fill="#475569">• Full funnel: Signups -&gt; Fit -&gt; Completed</text>
+  <text x="836" y="925" font-size="12" fill="#475569">• Conversion rate % calculated per source</text>
+  <text x="836" y="950" font-size="12" fill="#475569">• Copyable trackable URLs with unique tokens</text>
+
+  <rect x="1210" y="815" width="350" height="195" rx="10" fill="#faf5ff" stroke="#d8b4fe" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1226" y="845" font-size="14" font-weight="700" fill="#581c87">Meta Lead Ads Webhook</text>
+  <text x="1226" y="875" font-size="12" fill="#475569">• POST /api/meta-leads/webhook</text>
+  <text x="1226" y="900" font-size="12" fill="#475569">• Handles Meta Graph API leadgen payload</text>
+  <text x="1226" y="925" font-size="12" fill="#475569">• SHA-256 deduplication on leadgen_id</text>
+  <text x="1226" y="950" font-size="12" fill="#475569">• Attributed to source="Meta Ads"</text>
+  <text x="1226" y="975" font-size="12" fill="#475569">• GET webhook for hub.challenge handshake</text>
+</svg>

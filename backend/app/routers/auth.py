@@ -25,7 +25,7 @@ def send_otp(payload: SendOTPRequest, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Invalid phone number")
 
     # Mock OTP: any OTP will work
-    return {"message": "OTP sent successfully", "mock_otp": "123456"}
+    return {"success": True, "message": "OTP sent successfully", "mock_otp": "123456"}
 
 
 @router.post("/verify-otp")
