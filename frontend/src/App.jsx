@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import Referrals from "./pages/Referrals";
 import AdminRespondents from "./pages/AdminRespondents";
 import AdminSources from "./pages/AdminSources";
+import AdminShell from "./components/AdminShell";
 import AnimatedThemeSwitch from "./components/AnimatedThemeSwitch";
 import UserDropdown from "./components/UserDropdown";
 
@@ -69,8 +70,8 @@ function MemberShell({ children }) {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   const navItems = [
-    { label: "Active Studies", path: "/dashboard"},
-    { label: "Referrals & Rewards", path: "/referrals"},
+    { label: "Active Studies", path: "/dashboard", icon: "📋" },
+    { label: "Referrals & Rewards", path: "/referrals", icon: "🎁" },
   ];
 
   const handleSignOut = () => {
@@ -258,7 +259,9 @@ export default function App() {
           path="/admin/respondents"
           element={
             <AdminRoute>
-              <AdminRespondents />
+              <AdminShell>
+                <AdminRespondents />
+              </AdminShell>
             </AdminRoute>
           }
         />
@@ -266,7 +269,9 @@ export default function App() {
           path="/admin/sources"
           element={
             <AdminRoute>
-              <AdminSources />
+              <AdminShell>
+                <AdminSources />
+              </AdminShell>
             </AdminRoute>
           }
         />

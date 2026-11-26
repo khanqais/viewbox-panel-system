@@ -8,7 +8,7 @@ export function ThemeProvider({ children }) {
       if (saved === "light" || saved === "dark") return saved;
       return document.documentElement.classList.contains("dark") ? "dark" : "light";
     }
-    return "dark";
+    return "light";
   });
 
   useEffect(() => {
