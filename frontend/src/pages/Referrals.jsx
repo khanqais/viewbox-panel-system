@@ -241,7 +241,7 @@ export default function Referrals() {
           {/* Lifecycle Explainer Card */}
           <div className="p-5 rounded-2xl border border-slate-200 bg-white shadow-2xs space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-              <span>📊</span> Referral Qualification Stages
+               Referral Qualification Stages
             </h4>
 
             <div className="space-y-2 text-xs">
@@ -380,4 +380,3 @@ export default function Referrals() {
     </div>
   );
 }
-

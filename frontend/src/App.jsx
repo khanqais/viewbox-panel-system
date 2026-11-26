@@ -70,8 +70,8 @@ function MemberShell({ children }) {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   const navItems = [
-    { label: "Active Studies", path: "/dashboard", icon: "📋" },
-    { label: "Referrals & Rewards", path: "/referrals", icon: "🎁" },
+    { label: "Active Studies", path: "/dashboard"},
+    { label: "Referrals & Rewards", path: "/referrals"},
   ];
 
   const handleSignOut = () => {
@@ -109,17 +109,28 @@ function MemberShell({ children }) {
                     <Link
                       key={item.path}
                       to={item.path}
-                      className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors flex items-center gap-2 cursor-pointer ${
+                      className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
                         isActive
-                          ? "bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-800 shadow-2xs"
+                          ? "bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-800 shadow-2xs font-bold"
                           : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/60"
                       }`}
                     >
-                      <span className="text-sm">{item.icon}</span>
                       <span>{item.label}</span>
                     </Link>
                   );
                 })}
+                {user.role === "admin" && (
+                  <Link
+                    to="/admin/respondents"
+                    className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
+                      location.pathname.startsWith("/admin")
+                        ? "bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-800 shadow-2xs font-bold"
+                        : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/60"
+                    }`}
+                  >
+                    <span>Admin</span>
+                  </Link>
+                )}
               </nav>
             </div>
 
@@ -132,20 +143,19 @@ function MemberShell({ children }) {
         </div>
 
         {/* Mobile Navigation Bar */}
-        <div className="md:hidden border-t border-slate-100 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-2 py-1.5 flex items-center justify-around">
+        <div className="md:hidden border-t border-slate-100 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-2 py-2 flex items-center justify-around">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex-1 py-1.5 px-2 text-center text-xs font-semibold rounded-lg transition-colors flex flex-col items-center gap-0.5 ${
+                className={`flex-1 py-1.5 px-2 text-center text-xs font-semibold rounded-lg transition-colors ${
                   isActive
                     ? "bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 font-bold"
                     : "text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
                 }`}
               >
-                <span className="text-sm">{item.icon}</span>
                 <span className="text-xs truncate">{item.label}</span>
               </Link>
             );
@@ -153,9 +163,12 @@ function MemberShell({ children }) {
           {user.role === "admin" && (
             <Link
               to="/admin/respondents"
-              className="flex-1 py-1.5 px-2 text-center text-xs font-semibold rounded-lg transition-colors flex flex-col items-center gap-0.5 text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800"
+              className={`flex-1 py-1.5 px-2 text-center text-xs font-semibold rounded-lg transition-colors ${
+                location.pathname.startsWith("/admin")
+                  ? "bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 font-bold"
+                  : "text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+              }`}
             >
-              <span className="text-sm">⚙️</span>
               <span className="text-xs truncate">Admin</span>
             </Link>
           )}

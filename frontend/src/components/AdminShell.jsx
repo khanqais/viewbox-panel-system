@@ -8,8 +8,8 @@ export default function AdminShell({ children }) {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   const adminNavItems = [
-    { label: "Respondents", path: "/admin/respondents", icon: "👥" },
-    { label: "Source Funnels", path: "/admin/sources", icon: "📊" },
+    { label: "Respondents", path: "/admin/respondents" },
+    { label: "Source Funnels", path: "/admin/sources" },
   ];
 
   const handleSignOut = () => {
@@ -30,9 +30,14 @@ export default function AdminShell({ children }) {
                   VB
                 </div>
                 <div>
-                  <span className="font-bold text-slate-900 dark:text-white text-sm tracking-tight block">
-                    ViewBox Console
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-slate-900 dark:text-white text-sm tracking-tight block">
+                      ViewBox Console
+                    </span>
+                    <span className="text-2xs font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/60">
+                      Admin
+                    </span>
+                  </div>
                   <span className="tracking-label text-slate-400 dark:text-slate-400 block -mt-0.5">
                     Panel Operations
                   </span>
@@ -41,19 +46,21 @@ export default function AdminShell({ children }) {
 
               {/* Desktop Navigation Links */}
               <nav className="hidden md:flex items-center gap-1.5" aria-label="Admin Navigation">
+                <span className="px-2.5 py-1 text-xs font-bold rounded-lg uppercase tracking-wider bg-purple-50 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800 mr-1 select-none">
+                  Admin
+                </span>
                 {adminNavItems.map((item) => {
                   const isActive = location.pathname === item.path;
                   return (
                     <Link
                       key={item.path}
                       to={item.path}
-                      className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors flex items-center gap-2 cursor-pointer ${
+                      className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
                         isActive
                           ? "bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-800 shadow-2xs"
                           : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/60"
                       }`}
                     >
-                      <span className="text-sm">{item.icon}</span>
                       <span>{item.label}</span>
                     </Link>
                   );
@@ -65,9 +72,8 @@ export default function AdminShell({ children }) {
             <div className="flex items-center gap-2 sm:gap-2.5">
               <Link
                 to="/dashboard"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors shadow-2xs cursor-pointer"
+                className="hidden sm:inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors shadow-2xs cursor-pointer"
               >
-                <span>←</span>
                 <span>Member View</span>
               </Link>
               <AnimatedThemeSwitch />
@@ -77,29 +83,27 @@ export default function AdminShell({ children }) {
         </div>
 
         {/* Mobile Admin Navigation Bar */}
-        <div className="md:hidden border-t border-slate-100 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-2 py-1.5 flex items-center justify-around">
+        <div className="md:hidden border-t border-slate-100 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-2 py-2 flex items-center justify-around">
           {adminNavItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex-1 py-1.5 px-2 text-center text-xs font-semibold rounded-lg transition-colors flex flex-col items-center gap-0.5 ${
+                className={`flex-1 py-1.5 px-2 text-center text-xs font-semibold rounded-lg transition-colors ${
                   isActive
                     ? "bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 font-bold"
                     : "text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
                 }`}
               >
-                <span className="text-sm">{item.icon}</span>
                 <span className="text-xs truncate">{item.label}</span>
               </Link>
             );
           })}
           <Link
             to="/dashboard"
-            className="flex-1 py-1.5 px-2 text-center text-xs font-semibold rounded-lg transition-colors flex flex-col items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+            className="flex-1 py-1.5 px-2 text-center text-xs font-semibold rounded-lg transition-colors text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
           >
-            <span className="text-sm">📋</span>
             <span className="text-xs truncate">Member View</span>
           </Link>
         </div>

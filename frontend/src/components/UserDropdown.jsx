@@ -85,6 +85,13 @@ export default function UserDropdown({ user, onSignOut }) {
           {displayName}
         </span>
 
+        {/* Role Badge in navbar if admin */}
+        {user?.role === "admin" && (
+          <span className="hidden sm:inline-block text-2xs font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/60">
+            Admin
+          </span>
+        )}
+
         {/* Chevron Icon */}
         <svg
           className={`w-3.5 h-3.5 text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-transform duration-200 shrink-0 ${
@@ -129,7 +136,7 @@ export default function UserDropdown({ user, onSignOut }) {
             {/* Phone Number Display */}
             {displayPhone && (
               <div className="flex items-center gap-1.5 text-xs font-mono text-slate-500 dark:text-slate-400 tabular-nums">
-                <span className="text-2xs">📱</span>
+
                 <span>{displayPhone}</span>
               </div>
             )}
@@ -174,9 +181,7 @@ export default function UserDropdown({ user, onSignOut }) {
                 onClick={() => setIsOpen(false)}
                 className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 hover:text-slate-900 dark:hover:text-white transition-colors"
               >
-                <div className="w-6 h-6 rounded-md bg-purple-100/70 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 text-xs">
-                  ⚙️
-                </div>
+
                 <div className="flex-1 text-left">
                   <span className="block font-semibold">Operations Console</span>
                   <span className="text-2xs text-slate-400 dark:text-slate-500 font-normal block">
@@ -194,9 +199,7 @@ export default function UserDropdown({ user, onSignOut }) {
                 onClick={() => setIsOpen(false)}
                 className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 hover:text-slate-900 dark:hover:text-white transition-colors"
               >
-                <div className="w-6 h-6 rounded-md bg-emerald-100/70 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 text-xs">
-                  📋
-                </div>
+
                 <div className="flex-1 text-left">
                   <span className="block font-semibold">Member Dashboard</span>
                   <span className="text-2xs text-slate-400 dark:text-slate-500 font-normal block">
