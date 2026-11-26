@@ -152,36 +152,38 @@ export default function UserDropdown({ user, onSignOut }) {
           </div>
 
           {/* Navigation Links */}
-          <div className="p-1 space-y-0.5">
-            {/* My Profile */}
-            <Link
-              to="/profile"
-              role="menuitem"
-              onClick={() => setIsOpen(false)}
-              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
-                location.pathname === "/profile"
-                  ? "bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-semibold"
-                  : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 hover:text-slate-900 dark:hover:text-white"
-              }`}
-            >
+          {user?.role !== "admin" && (
+            <div className="p-1 space-y-0.5">
+              {/* My Profile - only for non-admin members */}
+              <Link
+                to="/profile"
+                role="menuitem"
+                onClick={() => setIsOpen(false)}
+                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
+                  location.pathname === "/profile"
+                    ? "bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-semibold"
+                    : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                <div className="flex-1 text-left">
+                  <span className="block font-semibold">My Profile</span>
+                  <span className="text-2xs text-slate-400 dark:text-slate-500 font-normal block">
+                    Demographics &amp; details
+                  </span>
+                </div>
+              </Link>
+            </div>
+          )}
 
-              <div className="flex-1 text-left">
-                <span className="block font-semibold">My Profile</span>
-                <span className="text-2xs text-slate-400 dark:text-slate-500 font-normal block">
-                  Demographics &amp; details
-                </span>
-              </div>
-            </Link>
-
-            {/* Admin Operations Console shortcut if admin and currently on member side */}
-            {user?.role === "admin" && !location.pathname.startsWith("/admin") && (
+          {/* Admin Operations Console shortcut if admin and currently on member side */}
+          {user?.role === "admin" && !location.pathname.startsWith("/admin") && (
+            <div className="p-1 space-y-0.5">
               <Link
                 to="/admin/respondents"
                 role="menuitem"
                 onClick={() => setIsOpen(false)}
                 className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 hover:text-slate-900 dark:hover:text-white transition-colors"
               >
-
                 <div className="flex-1 text-left">
                   <span className="block font-semibold">Operations Console</span>
                   <span className="text-2xs text-slate-400 dark:text-slate-500 font-normal block">
@@ -189,29 +191,13 @@ export default function UserDropdown({ user, onSignOut }) {
                   </span>
                 </div>
               </Link>
-            )}
+            </div>
+          )}
 
-            {/* Member View shortcut if admin and currently in admin console */}
-            {location.pathname.startsWith("/admin") && (
-              <Link
-                to="/dashboard"
-                role="menuitem"
-                onClick={() => setIsOpen(false)}
-                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 hover:text-slate-900 dark:hover:text-white transition-colors"
-              >
-
-                <div className="flex-1 text-left">
-                  <span className="block font-semibold">Member Dashboard</span>
-                  <span className="text-2xs text-slate-400 dark:text-slate-500 font-normal block">
-                    Active surveys &amp; rewards
-                  </span>
-                </div>
-              </Link>
-            )}
-          </div>
-
-          {/* Divider */}
-          <div className="border-t border-slate-100 dark:border-slate-800 my-1" />
+          {/* Divider if any navigation link was shown */}
+          {(user?.role !== "admin" || !location.pathname.startsWith("/admin")) && (
+            <div className="border-t border-slate-100 dark:border-slate-800 my-1" />
+          )}
 
           {/* Sign Out */}
           <div className="p-1">

@@ -205,6 +205,10 @@ function ProtectedRoute({ children }) {
   if (!token) {
     return <Navigate to="/login" replace />;
   }
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  if (user.role === "admin") {
+    return <Navigate to="/admin/respondents" replace />;
+  }
   return children;
 }
 

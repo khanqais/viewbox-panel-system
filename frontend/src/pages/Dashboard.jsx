@@ -20,6 +20,12 @@ export default function Dashboard() {
       return;
     }
 
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    if (storedUser.role === "admin") {
+      navigate("/admin/respondents", { replace: true });
+      return;
+    }
+
     const loadData = async () => {
       setLoading(true);
       try {

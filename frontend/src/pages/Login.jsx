@@ -14,6 +14,18 @@ export default function Login() {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    if (token) {
+      if (storedUser.role === "admin") {
+        navigate("/admin/respondents", { replace: true });
+        return;
+      } else {
+        navigate("/dashboard", { replace: true });
+        return;
+      }
+    }
+
     const refToken = searchParams.get("ref");
     const sourceSlug = searchParams.get("source");
 
@@ -23,7 +35,7 @@ export default function Login() {
     if (sourceSlug) {
       localStorage.setItem("pending_source_slug", sourceSlug);
     }
-  }, [searchParams]);
+  }, [searchParams, navigate]);
 
   const handleSendOtp = async (e) => {
     if (e) e.preventDefault();
@@ -79,6 +91,11 @@ export default function Login() {
       const { access_token, user } = res.data;
       localStorage.setItem("token", access_token);
       localStorage.setItem("user", JSON.stringify(user));
+
+      if (user?.role === "admin") {
+        navigate("/admin/respondents", { replace: true });
+        return;
+      }
 
       try {
         const profileRes = await api.get("/api/members/me");

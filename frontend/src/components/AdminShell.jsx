@@ -68,14 +68,8 @@ export default function AdminShell({ children }) {
               </nav>
             </div>
 
-            {/* Right: Member View Shortcut, Theme Switch & User Dropdown */}
+            {/* Right: Theme Switch & User Dropdown */}
             <div className="flex items-center gap-2 sm:gap-2.5">
-              <Link
-                to="/dashboard"
-                className="hidden sm:inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors shadow-2xs cursor-pointer"
-              >
-                <span>Member View</span>
-              </Link>
               <AnimatedThemeSwitch />
               <UserDropdown user={user} onSignOut={handleSignOut} />
             </div>
@@ -100,12 +94,6 @@ export default function AdminShell({ children }) {
               </Link>
             );
           })}
-          <Link
-            to="/dashboard"
-            className="flex-1 py-1.5 px-2 text-center text-xs font-semibold rounded-lg transition-colors text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
-          >
-            <span className="text-xs truncate">Member View</span>
-          </Link>
         </div>
       </header>
 

@@ -65,6 +65,12 @@ export default function ProfileOnboarding() {
       return;
     }
 
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    if (user.role === "admin") {
+      navigate("/admin/respondents", { replace: true });
+      return;
+    }
+
     const initData = async () => {
       try {
         const [meRes, sourcesRes] = await Promise.allSettled([
