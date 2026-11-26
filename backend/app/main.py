@@ -1,15 +1,31 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine
 from app.routers import auth, members, sources, surveys, referrals, admin, meta_leads
 
+# Ensure database tables exist
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="ViewBox Panel System")
 
+# CORS setup: Support local dev, custom domain via env var, and Vercel domains
+env_origins = os.getenv("ALLOWED_ORIGINS", "")
+parsed_origins = [o.strip() for o in env_origins.split(",") if o.strip()]
+
+allowed_origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:3000",
+]
+if parsed_origins:
+    allowed_origins.extend(parsed_origins)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=allowed_origins,
+    allow_origin_regex=r"^https:\/\/.*\.vercel\.app$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
