@@ -4,8 +4,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine
 from app.routers import auth, members, sources, surveys, referrals, admin, meta_leads
 
-# Ensure database tables exist
-Base.metadata.create_all(bind=engine)
+# Ensure database tables exist safely on startup
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as e:
+    print(f"Database initialization notice: {e}")
 
 app = FastAPI(title="ViewBox Panel System")
 

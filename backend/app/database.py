@@ -5,7 +5,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./viewbox_fallback.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "")
+
+if not DATABASE_URL:
+    # On Vercel / AWS Lambda serverless, only /tmp is writable for SQLite
+    if os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"):
+        DATABASE_URL = "sqlite:////tmp/viewbox_fallback.db"
+    else:
+        DATABASE_URL = "sqlite:///./viewbox_fallback.db"
 
 # Neon, Supabase, Heroku postgres:// -> postgresql:// compatibility for SQLAlchemy 2.0
 if DATABASE_URL.startswith("postgres://"):
