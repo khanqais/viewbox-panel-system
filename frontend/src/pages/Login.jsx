@@ -105,38 +105,54 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col flex-1 px-6 py-10 sm:px-8 justify-between">
-      {/* Brand Header */}
+    <div className="flex flex-col flex-1 p-5 sm:p-7 justify-between">
       <div>
-        <div className="flex items-center gap-2 mb-8">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm tracking-tight shadow-sm">
-            VB
-          </div>
-          <span className="font-semibold text-slate-900 text-base tracking-tight">
-            ViewBox Panel
-          </span>
-          <span className="ml-auto text-xs px-2 py-0.5 rounded font-medium bg-slate-100 text-slate-500 border border-slate-200 tracking-wide">
-            Research Portal
-          </span>
-        </div>
-
-        {/* Hero Context */}
+        {/* Step context & status badge */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-2 leading-tight">
-            {step === "phone" ? "Sign in with phone" : "Verify code"}
-          </h1>
-          <p className="text-sm text-slate-500 leading-relaxed">
-            {step === "phone"
-              ? "Access paid consumer research studies and track your referral bonuses."
-              : `Enter 6-digit code sent to +91 ${phone}`}
-          </p>
+          {step === "phone" ? (
+            <>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200/70 dark:border-blue-900/50 text-blue-700 dark:text-blue-300 text-2xs font-semibold mb-3 tracking-wide">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400 animate-pulse" />
+                Verified Respondent Portal
+              </div>
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
+                Sign in with mobile
+              </h1>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                Access paid consumer studies, live research opportunities, and track your referral rewards.
+              </p>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={() => {
+                  setStep("phone");
+                  setErrorMsg("");
+                }}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mb-3 cursor-pointer group"
+              >
+                <span className="transition-transform group-hover:-translate-x-0.5">←</span>
+                <span>Change mobile number</span>
+              </button>
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
+                Verify Passcode
+              </h1>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                Enter the 6-digit verification code sent to{" "}
+                <span className="font-semibold text-slate-800 dark:text-slate-200 font-mono">
+                  +91 {phone}
+                </span>
+              </p>
+            </>
+          )}
         </div>
 
         {/* Error message */}
         {errorMsg && (
-          <div className="mb-5 p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-xs font-medium flex items-start gap-2">
-            <span className="font-bold">Error:</span>
-            <span>{errorMsg}</span>
+          <div className="mb-5 p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/60 text-rose-800 dark:text-rose-200 text-xs font-medium flex items-start gap-2.5">
+            <span className="font-bold shrink-0">Error:</span>
+            <span className="leading-snug">{errorMsg}</span>
           </div>
         )}
 
@@ -146,34 +162,36 @@ export default function Login() {
             <div>
               <label
                 htmlFor="phone-input"
-                className="block tracking-label text-slate-700 mb-1.5"
+                className="block tracking-label text-slate-700 dark:text-slate-300 mb-1.5"
               >
                 Mobile Number
               </label>
-              <div className="relative flex items-center rounded-lg border border-slate-300 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-100 bg-white transition-all">
-                <span className="pl-3.5 pr-2.5 py-3 text-sm font-semibold text-slate-500 border-r border-slate-200 bg-slate-50 select-none rounded-l-lg">
+              <div className="relative flex items-center rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 focus-within:border-blue-600 dark:focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-100 dark:focus-within:ring-blue-950/50 transition-all overflow-hidden">
+                <span className="pl-3.5 pr-2.5 py-3 text-sm font-semibold text-slate-600 dark:text-slate-300 border-r border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/90 select-none">
                   +91
                 </span>
                 <input
                   id="phone-input"
                   type="tel"
+                  inputMode="numeric"
+                  autoComplete="tel"
                   placeholder="9876543210"
                   maxLength={10}
                   value={phone}
                   onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
-                  className="w-full pl-3 pr-3 py-3 text-base text-slate-900 placeholder:text-slate-400 bg-transparent outline-none tabular-nums font-mono"
+                  className="w-full pl-3.5 pr-3.5 py-3 text-base text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-transparent outline-none tabular-nums font-mono"
                   autoFocus
                 />
               </div>
-              <p className="mt-1.5 text-xs text-slate-400">
-                Any 10-digit number accepted for this demo.
+              <p className="mt-1.5 text-2xs sm:text-xs text-slate-400 dark:text-slate-500">
+                Any valid 10-digit number accepted for this demo.
               </p>
             </div>
 
             <button
               type="submit"
               disabled={loading || phone.trim().length < 10}
-              className="w-full py-3 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none text-white font-semibold text-sm shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full h-12 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none text-white font-semibold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               {loading ? (
                 <>
@@ -181,7 +199,7 @@ export default function Login() {
                   <span>Requesting code...</span>
                 </>
               ) : (
-                <span>Continue →</span>
+                <span>Continue to Verification →</span>
               )}
             </button>
           </form>
@@ -189,17 +207,17 @@ export default function Login() {
           /* Step 2: OTP Entry */
           <form onSubmit={handleVerifyOtp} className="space-y-4">
             {mockOtp && (
-              <div className="p-3 rounded-lg bg-blue-50 border border-blue-200 text-blue-900 text-xs flex items-center justify-between">
-                <div>
-                  <span className="text-blue-700 font-medium">Demo Passcode:</span>{" "}
-                  <span className="font-mono font-bold tracking-widest text-blue-900 text-sm">
+              <div className="p-3 rounded-xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/60 text-blue-900 dark:text-blue-200 text-xs flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-blue-700 dark:text-blue-300 font-medium">Demo Code:</span>{" "}
+                  <span className="font-mono font-bold tracking-widest text-blue-900 dark:text-blue-100 text-sm">
                     {mockOtp}
                   </span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setOtp(mockOtp)}
-                  className="text-xs font-semibold text-blue-600 hover:text-blue-800 underline cursor-pointer"
+                  className="text-2xs font-semibold px-2 py-1 rounded-md bg-blue-600 text-white hover:bg-blue-700 active:scale-95 transition-all cursor-pointer"
                 >
                   Auto-fill
                 </button>
@@ -210,29 +228,32 @@ export default function Login() {
               <div className="flex justify-between items-center mb-1.5">
                 <label
                   htmlFor="otp-input"
-                className="block tracking-label text-slate-700"
+                  className="block tracking-label text-slate-700 dark:text-slate-300"
                 >
-                  6-Digit Code
+                  6-Digit Passcode
                 </label>
                 <button
                   type="button"
                   onClick={() => {
-                    setStep("phone");
-                    setErrorMsg("");
+                    setOtp("");
+                    handleSendOtp();
                   }}
-                  className="text-xs text-blue-600 hover:text-blue-700 font-medium cursor-pointer"
+                  disabled={loading}
+                  className="text-2xs text-blue-600 dark:text-blue-400 hover:underline font-medium cursor-pointer"
                 >
-                  Change phone
+                  Resend code
                 </button>
               </div>
               <input
                 id="otp-input"
                 type="text"
+                inputMode="numeric"
+                autoComplete="one-time-code"
                 placeholder="123456"
                 maxLength={6}
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                className="w-full px-3.5 py-3 text-center text-xl font-mono tracking-[0.5em] text-slate-900 placeholder:text-slate-300 rounded-lg border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all tabular-nums otp-input bg-white"
+                className="w-full h-14 px-3.5 py-3 text-center text-2xl font-mono tracking-[0.4em] text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 focus:border-blue-600 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-950/50 outline-none transition-all tabular-nums"
                 autoFocus
               />
             </div>
@@ -240,7 +261,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading || otp.trim().length === 0}
-              className="w-full py-3 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none text-white font-semibold text-sm shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full h-12 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none text-white font-semibold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               {loading ? (
                 <>
@@ -255,16 +276,48 @@ export default function Login() {
         )}
       </div>
 
-      <div className="pt-6 mt-6 border-t border-slate-100">
-        <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/70 text-xs text-slate-500 space-y-1">
-          <div className="font-semibold text-slate-700 flex items-center justify-between">
+      {/* Demo Quick Access - touch friendly buttons */}
+      <div className="pt-5 mt-6 border-t border-slate-100 dark:border-slate-800">
+        <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-700/60 text-xs text-slate-500 dark:text-slate-400 space-y-2">
+          <div className="font-semibold text-slate-700 dark:text-slate-300 flex items-center justify-between text-2xs uppercase tracking-wider">
             <span>💡 Demo Quick Access</span>
-            <span className="text-2xs bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded font-mono">Mock OTP: 123456</span>
+            <span className="font-mono bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-1.5 py-0.5 rounded text-2xs">
+              Passcode: 123456
+            </span>
           </div>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-slate-600">
-            <span>Admin: <strong className="font-mono text-slate-800">8454803210</strong></span>
-            <span>•</span>
-            <span>Member: <strong className="font-mono text-slate-800">9876500001</strong></span>
+          <div className="grid grid-cols-2 gap-2 pt-0.5">
+            <button
+              type="button"
+              onClick={() => {
+                setPhone("8454803210");
+                setErrorMsg("");
+                if (step === "otp") setStep("phone");
+              }}
+              className="p-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-400 text-left transition-all active:scale-[0.98] cursor-pointer group"
+            >
+              <div className="text-2xs text-slate-500 dark:text-slate-400 font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                Admin Portal
+              </div>
+              <div className="font-mono font-semibold text-slate-800 dark:text-slate-200 text-xs">
+                8454803210
+              </div>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setPhone("9876500001");
+                setErrorMsg("");
+                if (step === "otp") setStep("phone");
+              }}
+              className="p-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-400 text-left transition-all active:scale-[0.98] cursor-pointer group"
+            >
+              <div className="text-2xs text-slate-500 dark:text-slate-400 font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                Respondent
+              </div>
+              <div className="font-mono font-semibold text-slate-800 dark:text-slate-200 text-xs">
+                9876500001
+              </div>
+            </button>
           </div>
         </div>
       </div>

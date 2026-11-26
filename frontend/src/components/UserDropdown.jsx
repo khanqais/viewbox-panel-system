@@ -157,9 +157,7 @@ export default function UserDropdown({ user, onSignOut }) {
                   : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
-              <div className="w-6 h-6 rounded-md bg-blue-100/70 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 text-xs">
-                👤
-              </div>
+
               <div className="flex-1 text-left">
                 <span className="block font-semibold">My Profile</span>
                 <span className="text-2xs text-slate-400 dark:text-slate-500 font-normal block">
@@ -223,9 +221,7 @@ export default function UserDropdown({ user, onSignOut }) {
               }}
               className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-700 dark:hover:text-rose-300 transition-colors cursor-pointer text-left"
             >
-              <div className="w-6 h-6 rounded-md bg-rose-100/70 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0 text-xs">
-                🚪
-              </div>
+
               <span className="font-semibold">Sign Out</span>
             </button>
           </div>

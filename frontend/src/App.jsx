@@ -16,17 +16,46 @@ import AdminSources from "./pages/AdminSources";
 import AnimatedThemeSwitch from "./components/AnimatedThemeSwitch";
 import UserDropdown from "./components/UserDropdown";
 
-// Auth shell: Mobile-first card on phones, clean centered card on desktop with panel branding
+// Auth shell: Full top navigation with theme toggle, mobile-first responsive card container
 function AuthShell({ children }) {
   return (
-    <div className="min-h-screen bg-transparent flex flex-col justify-center items-center p-4 sm:p-6 lg:p-8 text-slate-900 dark:text-slate-100 relative">
-      <div className="absolute top-4 right-4 z-20">
-        <AnimatedThemeSwitch />
-      </div>
-      <div className="w-full max-w-md sm:max-w-lg bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
-        {children}
-      </div>
-      <footer className="mt-6 text-center text-xs text-slate-500 dark:text-slate-400">
+    <div className="min-h-screen min-h-[100dvh] bg-transparent flex flex-col text-slate-900 dark:text-slate-100">
+      {/* Top Navbar with Brand and Theme Switch */}
+      <header className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-slate-200/90 dark:border-slate-800 sticky top-0 z-30 transition-colors">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16">
+            {/* Left: Brand & Portal Badge */}
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm tracking-tight shadow-xs">
+                VB
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-slate-900 dark:text-white text-sm tracking-tight block">
+                  ViewBox Panel
+                </span>
+                <span className="hidden sm:inline-block text-2xs font-semibold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 tracking-wide">
+                  Research Portal
+                </span>
+              </div>
+            </div>
+
+            {/* Right: Theme Switch in Top Nav */}
+            <div className="flex items-center">
+              <AnimatedThemeSwitch />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Centered Content Area */}
+      <main className="flex-1 flex flex-col justify-center items-center px-4 py-6 sm:py-10">
+        <div className="w-full max-w-md bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden transition-all">
+          {children}
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="py-4 text-center text-2xs text-slate-500 dark:text-slate-400">
         Concave Insights • ViewBox Panel System v1.0
       </footer>
     </div>
